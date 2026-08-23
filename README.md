@@ -164,6 +164,20 @@ Both data tables also have a stacked-card rendering below `md`.
 
 ---
 
+## The `dist` branch
+
+`main` holds source; the `dist` branch holds the compiled site and nothing
+else, so it can be deployed or uploaded with no build step. It carries both
+`.htaccess` (Apache/cPanel) and `vercel.json` (Vercel).
+
+It is rebuilt automatically by `.github/workflows/publish-dist.yml` on every
+push to `main`, and can also be run by hand from the Actions tab. Each run
+republishes the branch as a single orphan commit and force-pushes it, so the
+branch stays a clean snapshot instead of accumulating a fresh copy of the
+hashed assets and images on every build.
+
+Never edit `dist` directly — the next push to `main` overwrites it.
+
 ## Before launch
 
 1. **Images** — generate and drop in the 19 files (see `IMAGE-PROMPTS.md`).
