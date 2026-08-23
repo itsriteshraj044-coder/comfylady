@@ -1,0 +1,388 @@
+@import url('https://fonts.googleapis.com/css2?family=Fahkwang:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600&family=Montserrat:wght@300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --shell-x: clamp(1.25rem, 5vw, 7.5rem);
+    --header-h: 84px;
+  }
+
+  * {
+    @apply border-ink-line;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: auto;
+  }
+
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+
+  body {
+    @apply bg-cream text-ink font-sans antialiased;
+    font-weight: 300;
+    font-size: clamp(1rem, 0.94rem + 0.2vw, 1.125rem);
+    line-height: 1.7;
+    overflow-x: hidden;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Nothing may create a horizontal scrollbar. */
+  body,
+  #root {
+    max-width: 100vw;
+  }
+
+  h1, h2, h3, h4, h5 {
+    @apply font-display text-ink;
+    font-weight: 300;
+    line-height: 1.08;
+    letter-spacing: -0.005em;
+  }
+
+  /* The custom cursor adds this class once it is actually running, so the
+     native cursor is never hidden on touch devices or under reduced motion. */
+  html.has-custom-cursor,
+  html.has-custom-cursor * {
+    cursor: none !important;
+  }
+
+  ::selection {
+    @apply bg-rose-300 text-ink;
+  }
+
+  :focus-visible {
+    outline: 2px solid theme('colors.rose.500');
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  input, select, textarea, button {
+    font: inherit;
+    color: inherit;
+  }
+
+  /* The browser's own stylesheet sets a monospace family on these. Inherit
+     instead, so the page only ever renders in Fahkwang or Montserrat. */
+  code, pre, kbd, samp {
+    font-family: inherit;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Scrollbar — subtle, on-brand */
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: theme('colors.shell'); }
+  ::-webkit-scrollbar-thumb {
+    background: theme('colors.rose.200');
+    border-radius: 999px;
+    border: 3px solid theme('colors.shell');
+  }
+  ::-webkit-scrollbar-thumb:hover { background: theme('colors.rose.300'); }
+}
+
+@layer components {
+  /* ---- Layout shell: full-bleed, luxurious on 2K / 4K / ultrawide ---- */
+  .shell {
+    width: 100%;
+    padding-inline: var(--shell-x);
+    margin-inline: auto;
+    max-width: 2200px;
+  }
+
+  .shell-narrow {
+    width: 100%;
+    padding-inline: var(--shell-x);
+    margin-inline: auto;
+    max-width: 1180px;
+  }
+
+  .section {
+    padding-block: clamp(5rem, 9vw, 11rem);
+    position: relative;
+  }
+
+  .section-tight {
+    padding-block: clamp(3.5rem, 6vw, 7rem);
+    position: relative;
+  }
+
+  /* ---- Hero stage height ----
+     Phones lock the hero to exactly one screen. Everything above `sm` only
+     takes 100svh as a floor and is free to grow. The short-viewport guard
+     releases the lock on landscape phones, where one screen physically cannot
+     hold the composition and clipping would be worse than scrolling. ---- */
+  .hero-stage {
+    min-height: 100svh;
+  }
+
+  @media (max-width: 639px) {
+    .hero-stage {
+      height: 100svh;
+    }
+  }
+
+  @media (max-height: 600px) {
+    .hero-stage {
+      height: auto;
+      min-height: 100svh;
+    }
+  }
+
+  /* ---- Typography scale ----
+     One family (Fahkwang) carries the whole site, so hierarchy comes from
+     size, weight and tracking rather than a display/body contrast. Negative
+     tracking is deliberately mild: Fahkwang already sets tighter than the
+     serif this scale was first drawn for. ---- */
+  .display-hero {
+    font-size: clamp(2.75rem, 8.2vw, 10.5rem);
+    line-height: 0.98;
+    letter-spacing: -0.018em;
+    font-weight: 300;
+  }
+
+  .display-xl {
+    font-size: clamp(2.25rem, 5.4vw, 6rem);
+    line-height: 1.06;
+    letter-spacing: -0.014em;
+  }
+
+  .display-lg {
+    font-size: clamp(1.875rem, 3.6vw, 4rem);
+    line-height: 1.1;
+    letter-spacing: -0.011em;
+  }
+
+  .display-md {
+    font-size: clamp(1.5rem, 2.2vw, 2.5rem);
+    line-height: 1.18;
+    letter-spacing: -0.008em;
+  }
+
+  .display-sm {
+    font-size: clamp(1.25rem, 1.5vw, 1.6rem);
+    line-height: 1.25;
+  }
+
+  .eyebrow {
+    @apply font-sans text-rose-600 uppercase;
+    font-size: clamp(0.625rem, 0.72vw, 0.75rem);
+    letter-spacing: 0.14em;
+    font-weight: 500;
+  }
+
+  .lead {
+    font-size: clamp(1.0625rem, 1.15vw, 1.375rem);
+    line-height: 1.7;
+    @apply text-ink-soft font-light;
+  }
+
+  .body-muted {
+    @apply text-ink-soft font-light;
+  }
+
+  /* ---- Buttons ---- */
+  .btn {
+    @apply relative inline-flex items-center justify-center gap-2.5 overflow-hidden
+           font-sans uppercase transition-colors duration-500;
+    font-size: 0.7rem;
+    letter-spacing: 0.09em;
+    font-weight: 500;
+    padding: 1.15rem 2.35rem;
+    border-radius: 999px;
+    isolation: isolate;
+  }
+
+  .btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    transform: translateY(101%);
+    transition: transform 0.62s cubic-bezier(0.16, 1, 0.3, 1);
+    border-radius: 999px;
+  }
+
+  .btn:hover::after,
+  .btn:focus-visible::after {
+    transform: translateY(0);
+  }
+
+  .btn-primary {
+    @apply bg-ink text-cream;
+  }
+  .btn-primary::after { @apply bg-rose-500; }
+  .btn-primary:hover { @apply text-cream; }
+
+  .btn-rose {
+    @apply bg-rose-500 text-white;
+  }
+  .btn-rose::after { @apply bg-ink; }
+
+  .btn-outline {
+    @apply border border-ink/25 text-ink bg-transparent;
+  }
+  .btn-outline::after { @apply bg-ink; }
+  .btn-outline:hover { @apply text-cream border-ink; }
+
+  .btn-light {
+    @apply border border-white/35 text-white bg-transparent;
+  }
+  .btn-light::after { @apply bg-white; }
+  .btn-light:hover { @apply text-ink border-white; }
+
+  .btn-sm {
+    padding: 0.85rem 1.75rem;
+    font-size: 0.65rem;
+  }
+
+  /* Text link with an animated rule */
+  .link-underline {
+    @apply relative inline-flex items-center gap-2 font-sans uppercase text-ink;
+    font-size: 0.7rem;
+    letter-spacing: 0.09em;
+    font-weight: 500;
+    padding-bottom: 0.4rem;
+  }
+
+  .link-underline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 1px;
+    width: 100%;
+    @apply bg-ink/25;
+  }
+
+  .link-underline::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 1px;
+    width: 100%;
+    @apply bg-rose-500;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .link-underline:hover::after,
+  .link-underline:focus-visible::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+
+  /* ---- Surfaces ---- */
+  .card-luxe {
+    @apply relative bg-white/70 backdrop-blur-sm border border-ink-line/70 overflow-hidden;
+    border-radius: 2px;
+    transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.7s ease;
+  }
+
+  .card-luxe:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 32px 70px -40px rgba(110, 60, 68, 0.38);
+    @apply border-rose-200;
+  }
+
+  .rule {
+    @apply block h-px w-full bg-ink-line;
+  }
+
+  .glass-panel {
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: saturate(140%) blur(18px);
+    -webkit-backdrop-filter: saturate(140%) blur(18px);
+  }
+
+  .grain::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.4;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");
+  }
+
+  .gradient-blush {
+    background: radial-gradient(120% 90% at 12% 0%, #FCF2EF 0%, #FDFAF7 45%, #FDFAF7 100%);
+  }
+
+  .gradient-rose-veil {
+    background: linear-gradient(160deg, rgba(245, 211, 216, 0.55) 0%, rgba(250, 244, 238, 0.4) 48%, rgba(253, 250, 247, 0) 100%);
+  }
+
+  /* Image reveal mask helper (GSAP/Framer animate the clip) */
+  .img-frame {
+    position: relative;
+    overflow: hidden;
+    border-radius: 2px;
+    background: theme('colors.shell');
+  }
+
+  .img-frame img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    will-change: transform;
+  }
+
+  .img-zoom img {
+    transition: transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .img-zoom:hover img {
+    transform: scale(1.06);
+  }
+
+  .text-balance { text-wrap: balance; }
+  .text-pretty { text-wrap: pretty; }
+
+  .hide-scrollbar::-webkit-scrollbar { display: none; }
+  .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+}
+
+@layer utilities {
+  .mask-fade-x {
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+    mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+  }
+
+  .clip-reveal-hidden { clip-path: inset(0 0 100% 0); }
+  .clip-reveal-shown { clip-path: inset(0 0 0% 0); }
+}
+
+/* Respect users who ask for less motion. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
