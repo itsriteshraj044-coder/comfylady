@@ -179,5 +179,17 @@ Both data tables also have a stacked-card rendering below `md`.
 5. **Social links** point to `#` — set real URLs in `socialLinks`.
 6. **Legal pages** are drafted as reasonable, industry-standard starting points.
    Have them reviewed by a qualified adviser before publishing.
-7. **SPA hosting** — configure the host to rewrite all paths to `index.html`,
-   or deep links will 404.
+7. **SPA hosting** — deep links such as `/products` must be rewritten to
+   `index.html`, or they 404 on refresh. For Apache/cPanel this is already
+   handled: `public/.htaccess` ships into `dist/` on every build — just upload
+   the whole `dist/` folder, dotfile included (enable "show hidden files" in
+   your FTP client or cPanel File Manager, or it will be silently skipped).
+   It also sets compression, long-lived caching for fingerprinted assets,
+   no-cache for `index.html`, and basic security headers. It deliberately does
+   **not** add an HTTPS/www redirect — most hosts already do that, and stacking
+   another one is the usual cause of redirect loops. See the comments in the
+   file if your host needs it.
+
+   On Nginx the equivalent is `try_files $uri $uri/ /index.html;`; on
+   Netlify a `_redirects` file with `/* /index.html 200`; Vercel handles it
+   automatically.
