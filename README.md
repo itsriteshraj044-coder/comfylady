@@ -190,6 +190,10 @@ Both data tables also have a stacked-card rendering below `md`.
    another one is the usual cause of redirect loops. See the comments in the
    file if your host needs it.
 
-   On Nginx the equivalent is `try_files $uri $uri/ /index.html;`; on
-   Netlify a `_redirects` file with `/* /index.html 200`; Vercel handles it
-   automatically.
+   **Vercel** ignores `.htaccess` entirely — it is Apache-only. `vercel.json`
+   at the repo root does the same job there (`rewrites` sends any path with no
+   matching file to `/index.html`, plus caching and security headers). Without
+   it, deep links 404 on Vercel.
+
+   On Nginx the equivalent is `try_files $uri $uri/ /index.html;`; on Netlify a
+   `_redirects` file containing `/* /index.html 200`.
