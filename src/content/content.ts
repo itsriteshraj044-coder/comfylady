@@ -129,37 +129,33 @@ export const marquee = {
 /* -------------------------------------------------------------------------- */
 
 export const home = {
-  /* SECTION 1 — Luxury Hero (centred kinetic stage) */
+  /* SECTION 1 — Cinematic full-screen hero */
   hero: {
     eyebrow: 'Premium Feminine Care',
-    /* Three designed lines. An image capsule is set inline after line one, and
-       the line at `emphasisLineIndex` is rendered in italic rose with a
-       self-drawing underline stroke. */
+    /* Three designed lines, set one per line. The line at `emphasisLineIndex`
+       is highlighted in rose. */
     titleLines: ['Empowering', 'Women with Comfort,', 'Confidence & Care'],
     emphasisLineIndex: 2,
     subtitle:
       'Premium, skin-friendly sanitary pads designed for superior leak protection, breathability and all-day comfort. Proudly manufactured and exported worldwide.',
-    /* Phones lock the hero to exactly one screen, so they get a trimmed line
-       rather than a truncated one. Shown below the `sm` breakpoint only. */
+    /* Phones get a trimmed line rather than a truncated one. Shown below the
+       `sm` breakpoint only. */
     subtitleShort:
       'Skin-friendly sanitary pads for superior leak protection and all-day comfort.',
     primaryCta: { label: 'Explore Our Products', href: '/products' },
     secondaryCta: { label: 'Partner With Us (B2B)', href: '/contact' },
-    /* Full-bleed ambient backdrop, held far back behind a cream scrim. */
+    /* The full-bleed backdrop that holds the whole first screen. The video is
+       the primary treatment; the still is the poster frame and the fallback
+       under reduced motion or if the file cannot play. Portrait and landscape
+       cuts are separate files so a phone never downloads the wide one. */
+    video: {
+      wide: '/videos/hero-desktop.mp4',
+      portrait: '/videos/hero-mobile.mp4',
+      posterWide: '/images/hero-poster-desktop.jpg',
+      posterPortrait: '/images/hero-poster-mobile.jpg',
+    },
     image: '/images/hero-comfylady.jpg',
     imageAlt: 'A confident woman in soft natural light, embodying everyday comfort and calm',
-    /* The inline capsule inside the headline — the focal image of the hero. */
-    capsuleImage: '/images/hero-capsule.jpg',
-    capsuleAlt: 'Soft blush still life of Comfylady pads on linen, cropped wide',
-    badges: [
-      { id: 'badge-soft', icon: 'Feather', title: 'Cottony soft', text: 'Skin-friendly top sheets' },
-      { id: 'badge-global', icon: 'Globe2', title: 'Global OEM', text: 'Private-label partner' },
-    ],
-    stats: [
-      { id: 'hs1', value: '130 ml+', label: 'Peak absorption' },
-      { id: 'hs2', value: '6', label: 'Engineered variants' },
-      { id: 'hs3', value: 'L–XXL', label: 'Size architectures' },
-    ],
     scrollHint: 'Scroll',
   },
 
@@ -180,6 +176,12 @@ export const home = {
     imagePrimaryAlt: 'Soft editorial still life of Comfylady pads arranged on linen',
     imageSecondary: '/images/brand-story-secondary.jpg',
     imageSecondaryAlt: 'Close detail of a cottony soft top sheet',
+    /* The portrait that anchors the section. 2:3, so it is framed at its own
+       ratio rather than cropped into the 4:5 the rest of the page uses. */
+    portrait: {
+      src: '/images/brand-story-portrait.jpg',
+      alt: 'A smiling young woman in a white vest holding up a Comfylady sanitary pad against a warm beige backdrop',
+    },
     stat: { value: '100%', label: 'Skin-friendly materials' },
   },
 
@@ -215,8 +217,8 @@ export const home = {
     subtitle:
       'Manufactured under strict hygiene protocols with material traceability, batch-level checks and international compliance in mind.',
     cta: { label: 'Explore our standards', href: '/quality' },
-    image: '/images/quality-manufacturing.jpg',
-    imageAlt: 'Bright, clean manufacturing environment for feminine hygiene products',
+    image: '/images/about-founder.jpg',
+    imageAlt: 'Our founder in the manufacturing facility',
   },
 
   /* SECTION 7 — Testimonials */
@@ -539,6 +541,8 @@ export const journeySteps: TimelineStep[] = [
     title: 'Material Selection',
     description:
       'It begins with what touches her skin. Top sheets, cores and back sheets are sourced against skin-friendliness, breathability and consistency before a single roll enters the line.',
+    image: '/images/brand-story-secondary.jpg',
+    imageAlt: 'Macro detail of a cottony soft non-woven top sheet',
   },
   {
     id: 'engineering',
@@ -546,6 +550,8 @@ export const journeySteps: TimelineStep[] = [
     title: 'Layer Engineering',
     description:
       'Each variant is engineered layer by layer — intake, distribution, lock and barrier — so absorption moves downward and outward rather than back toward the surface.',
+    image: '/images/product-ultra-thin-xl.jpg',
+    imageAlt: 'An ultra thin pad stood on its edge, showing how little there is to it',
   },
   {
     id: 'production',
@@ -553,6 +559,8 @@ export const journeySteps: TimelineStep[] = [
     title: 'Hygienic Production',
     description:
       'Converting runs under strict hygiene protocols with controlled handling, so the pad that leaves the line is as clean as the materials that entered it.',
+    image: '/images/quality-manufacturing.jpg',
+    imageAlt: 'A converting line running under controlled hygienic conditions',
   },
   {
     id: 'testing',
@@ -560,6 +568,8 @@ export const journeySteps: TimelineStep[] = [
     title: 'Verification',
     description:
       'Batches are checked against absorption, adhesion, dimensional and integrity criteria. Capacities from 40 ml to over 130 ml are confirmed, not assumed.',
+    image: '/images/quality-hero.jpg',
+    imageAlt: 'Finished pads being checked against absorption and integrity criteria',
   },
   {
     id: 'delivery',
@@ -567,6 +577,8 @@ export const journeySteps: TimelineStep[] = [
     title: 'Packing & Global Despatch',
     description:
       'Sealed, cartoned and prepared for export or private-label distribution — reaching retailers, institutions and partner brands across markets.',
+    image: '/images/about-capabilities.jpg',
+    imageAlt: 'Cartoned stock prepared for export and private-label distribution',
   },
 ]
 
@@ -591,9 +603,9 @@ export const testimonials: Testimonial[] = [
     id: 't1',
     quote:
       'The Ultra Thin XXL changed how I sleep during my heaviest nights. I stopped waking up to check. That is the whole review.',
-    name: 'Ananya R.',
+    name: 'Amina N.',
     role: 'Everyday wearer',
-    location: 'Mumbai, India',
+    location: 'Lagos, Nigeria',
   },
   {
     id: 't2',
@@ -606,34 +618,34 @@ export const testimonials: Testimonial[] = [
   {
     id: 't3',
     quote:
-      'Consistency batch after batch is what keeps us reordering. Our retail partners have not raised a single quality complaint.',
-    name: 'Farah S.',
+      'Consistency batch after batch is what keeps us reordering. Our retail partners across the region have not raised a single quality complaint.',
+    name: 'Kofi A.',
     role: 'Regional Distributor',
-    location: 'Dubai, UAE',
+    location: 'Accra, Ghana',
   },
   {
     id: 't4',
     quote:
       'For our community distribution programme, affordability mattered as much as safety. Comfylady let us have both, at scale.',
-    name: 'Meenakshi P.',
+    name: 'Zanele M.',
     role: 'Programme Lead, NGO',
-    location: 'Pune, India',
+    location: 'Johannesburg, South Africa',
   },
   {
     id: 't5',
     quote:
       'The drynet variant is the one I recommend to friends in humid cities. It genuinely stays dry on the surface.',
-    name: 'Sneha K.',
+    name: 'Grace O.',
     role: 'Everyday wearer',
-    location: 'Chennai, India',
+    location: 'Dar es Salaam, Tanzania',
   },
   {
     id: 't6',
     quote:
       'Their team handled customisation on length and absorption without friction. Communication was clear from quote to shipment.',
-    name: 'Lukas B.',
+    name: 'Tariq S.',
     role: 'Procurement Director',
-    location: 'Hamburg, Germany',
+    location: 'Cairo, Egypt',
   },
 ]
 
@@ -1498,19 +1510,33 @@ export const notFoundPage = {
 export const imagePrompts: ImagePrompt[] = [
   {
     id: 'hero',
-    usage: 'Home — Section 1 Luxury Hero',
     file: 'hero-comfylady.jpg',
-    aspect: '4:5 portrait (also export 16:9 for wide screens)',
+    usage:
+      'Home — Section 1 Hero. Full-bleed background behind centred cream type, ' +
+      'graded with a warm ink scrim. Rendered at 100vw on every device, so the ' +
+      'same file is cropped from ultrawide down to a narrow portrait phone.',
+    aspect:
+      '16:9 landscape master at 3840×2160 or wider. It must also survive a 9:16 ' +
+      'centre crop: the subject sits at roughly 35% from the left, which is where ' +
+      'both the phone and the desktop crops are anchored.',
     prompt:
-      'Editorial fashion-wellness photograph of a confident South Asian woman in her late twenties, seated in soft diffused morning light beside a linen-draped window, wearing an unbranded ivory ribbed cotton set, relaxed natural posture with one hand resting on her knee, serene and self-assured expression looking slightly away from camera. Palette of soft rose pink, blush, warm nude and off-white with deep charcoal accents. Shot on medium format, 80mm lens, f/2.8, shallow depth of field, creamy bokeh, gentle skin tones, subtle film grain, matte finish, generous negative space on the left third for typography. Luxury beauty campaign aesthetic, calm and dignified, no text, no logos, no product packaging visible, no plastic sheen.',
-  },
-  {
-    id: 'hero-capsule',
-    usage: 'Home — inline image capsule inside the hero headline',
-    file: 'hero-capsule.jpg',
-    aspect: '2:1 wide (crops into a pill/capsule, so keep the subject dead centre)',
-    prompt:
-      'Wide crop luxury still life for a rounded capsule crop: softly folded blush-pink linen filling the frame with a single unbranded white sanitary pad laid horizontally across the centre, one dried rose petal resting beside it. Warm directional morning light raking from the left, long soft shadows, shallow depth of field falling off at both edges, palette of soft rose pink, blush and warm nude. Composition centred and horizontally balanced so it reads well cropped into a long pill shape, nothing important near the left or right edge. Shot on 85mm at f/2.8, tactile fabric detail, matte editorial finish, premium feminine wellness aesthetic, no text, no logos, no packaging.',
+      'Cinematic editorial photograph for a premium feminine-care brand. A confident ' +
+      'woman in her late twenties walks unhurried through a sunlit minimalist courtyard ' +
+      'of pale limewashed plaster walls, wearing an unbranded blush-pink linen blazer over ' +
+      'an ivory top and wide cream trousers, mid-stride, relaxed shoulders, a calm ' +
+      'self-assured half-smile, looking just past the camera. Place her in the left third ' +
+      'of the frame at about 35% from the left edge, full or three-quarter length, with ' +
+      'her head well below the top edge; keep the centre and right two-thirds quiet and ' +
+      'uncluttered — soft plaster, one out-of-focus olive tree, nothing that competes — ' +
+      'because large centred type is set over that area. Late-afternoon golden light ' +
+      'raking from the right, long soft shadows across the ground, luminous and airy along ' +
+      'the top of the frame, naturally deeper and shadowed towards the bottom. Palette of ' +
+      'warm cream, blush pink, soft rose and nude with muted terracotta accents; no cool ' +
+      'blues, no neon. Shot on medium format, 50mm at f/2.2, shallow depth of field, ' +
+      'creamy falloff, natural skin texture, fine film grain, matte editorial finish. ' +
+      'Calm, dignified, aspirational — a luxury campaign frame, not a stock photo. ' +
+      'No text, no logos, no watermarks, no product packaging, no plastic sheen, no ' +
+      'harsh contrast, nothing crossing the centre of the frame at head height.',
   },
   {
     id: 'brand-story-primary',

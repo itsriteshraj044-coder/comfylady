@@ -1,5 +1,5 @@
 import { useRef } from 'react'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { motion } from 'framer-motion'
 import ButtonLink from '../../components/ButtonLink'
 import Magnetic from '../../components/Magnetic'
 import TextReveal from '../../components/TextReveal'
@@ -29,8 +29,7 @@ export default function CtaSection({
 }: CtaSectionProps) {
   const ref = useRef<HTMLElement | null>(null)
   const pointer = useMousePosition()
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] })
-  const drift = useTransform(scrollYProgress, [0, 1], ['-8%', '8%'])
+
 
   return (
     <section
@@ -48,11 +47,6 @@ export default function CtaSection({
         animate={{ x: pointer.x * -60, y: pointer.y * -45 }}
         transition={{ type: 'spring', stiffness: 34, damping: 24, mass: 1.4 }}
         className="pointer-events-none absolute bottom-[-24%] right-[4%] h-[38rem] w-[38rem] rounded-full bg-nude-400/16 blur-[140px]"
-        aria-hidden="true"
-      />
-      <motion.div
-        style={{ y: drift }}
-        className="pointer-events-none absolute inset-x-0 top-1/2 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent"
         aria-hidden="true"
       />
       <div className="grain absolute inset-0" aria-hidden="true" />

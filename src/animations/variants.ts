@@ -40,20 +40,6 @@ export const staggerParent = (stagger = 0.09, delayChildren = 0): Variants => ({
   show: { transition: { staggerChildren: stagger, delayChildren } },
 })
 
-export const maskReveal: Variants = {
-  hidden: { clipPath: 'inset(0% 0% 100% 0%)', scale: 1.08 },
-  show: {
-    clipPath: 'inset(0% 0% 0% 0%)',
-    scale: 1,
-    transition: { duration: 1.5, ease: LUXE_EASE },
-  },
-}
-
-export const maskRevealX: Variants = {
-  hidden: { clipPath: 'inset(0% 100% 0% 0%)' },
-  show: { clipPath: 'inset(0% 0% 0% 0%)', transition: { duration: 1.4, ease: LUXE_EASE } },
-}
-
 export const lineGrow: Variants = {
   hidden: { scaleX: 0 },
   show: { scaleX: 1, transition: { duration: 1.2, ease: LUXE_EASE } },

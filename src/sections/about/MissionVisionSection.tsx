@@ -13,7 +13,7 @@ const panels = [
 /** About — mission and vision as two facing panels on a blush field. */
 export default function MissionVisionSection() {
   return (
-    <section className="section bg-shell/60" aria-label="Mission and vision">
+    <section className="section field-shell" aria-label="Mission and vision">
       <div className="shell">
         <SectionHeading
           eyebrow={missionVision.eyebrow}

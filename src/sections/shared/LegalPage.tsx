@@ -43,7 +43,7 @@ export default function LegalPage({
         ]}
       />
 
-      <section className="section bg-cream" aria-label={title}>
+      <section className="section field-cream" aria-label={title}>
         <div className="shell">
           <div className="grid gap-14 lg:grid-cols-12 lg:gap-16">
             {/* Contents */}

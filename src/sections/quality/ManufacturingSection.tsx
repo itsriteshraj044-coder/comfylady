@@ -10,7 +10,7 @@ const { manufacturing } = qualityPage
 /** Quality — how the product is made. */
 export default function ManufacturingSection() {
   return (
-    <section className="section bg-cream" aria-label="Manufacturing quality">
+    <section className="section field-cream" aria-label="Manufacturing quality">
       <div className="shell">
         <div className="grid gap-14 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-6">

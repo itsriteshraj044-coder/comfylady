@@ -9,7 +9,7 @@ const { highlights } = productsPage
 /** Products — the three signature top-sheet constructions. */
 export default function HighlightsSection() {
   return (
-    <section className="section bg-cream" aria-label="Signature features">
+    <section className="section field-cream" aria-label="Signature features">
       <div className="shell">
         <SectionHeading
           eyebrow={highlights.eyebrow}

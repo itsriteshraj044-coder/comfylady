@@ -10,7 +10,7 @@ const { capabilities } = about
 /** About — global capability, and the four audiences Comfylady supplies. */
 export default function CapabilitiesSection() {
   return (
-    <section className="section bg-cream" aria-label="Global capabilities">
+    <section className="section field-cream" aria-label="Global capabilities">
       <div className="shell">
         <div className="grid gap-14 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-5">

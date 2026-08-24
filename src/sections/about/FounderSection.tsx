@@ -55,7 +55,7 @@ export default function FounderSection() {
               initial="hidden"
               whileInView="show"
               viewport={viewportSoft}
-              className="mt-6 max-w-3xl text-pretty font-display text-[clamp(1.25rem,2.1vw,1.9rem)] font-light italic leading-snug text-white/90"
+              className="mt-6 max-w-3xl text-pretty font-sans text-[clamp(1.25rem,2.1vw,1.9rem)] font-light italic leading-snug text-white/90"
             >
               {founder.quote}
             </motion.blockquote>

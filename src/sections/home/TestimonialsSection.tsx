@@ -13,7 +13,7 @@ function TestimonialCard({ item }: { item: Testimonial }) {
   return (
     <figure className="card-luxe flex w-[85vw] shrink-0 flex-col justify-between p-8 sm:w-[26rem] lg:w-[30rem] lg:p-10">
       <Quote className="h-7 w-7 text-rose-300" strokeWidth={1.1} aria-hidden="true" />
-      <blockquote className="mt-7 font-display text-[clamp(1.15rem,1.55vw,1.5rem)] font-light italic leading-snug text-ink">
+      <blockquote className="mt-7 font-sans text-[clamp(1.15rem,1.55vw,1.5rem)] font-light italic leading-snug text-ink">
         {item.quote}
       </blockquote>
       <figcaption className="mt-9 flex items-center gap-4 border-t border-ink-line pt-6">
@@ -44,7 +44,7 @@ export default function TestimonialsSection() {
   const [paused, setPaused] = useState(false)
 
   return (
-    <section className="section relative overflow-hidden bg-shell/60" aria-label="Testimonials">
+    <section className="section relative overflow-hidden field-shell" aria-label="Testimonials">
       <div className="shell">
         <SectionHeading
           eyebrow={copy.eyebrow}

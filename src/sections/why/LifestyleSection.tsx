@@ -10,7 +10,7 @@ const { lifestyle } = whyPage
 /** Why Comfylady — four everyday moments, matched to the right variant. */
 export default function LifestyleSection() {
   return (
-    <section className="section bg-cream" aria-label="Everyday freedom">
+    <section className="section field-cream" aria-label="Everyday freedom">
       <div className="shell">
         <div className="grid gap-14 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-5">

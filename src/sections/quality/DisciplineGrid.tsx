@@ -34,7 +34,7 @@ export default function DisciplineGrid({
 }: DisciplineGridProps) {
   return (
     <section
-      className={cx('section', tone === 'cream' ? 'bg-cream' : 'bg-shell/60')}
+      className={cx('section', tone === 'cream' ? 'field-cream' : 'field-shell')}
       aria-label={title}
     >
       <div className="shell">

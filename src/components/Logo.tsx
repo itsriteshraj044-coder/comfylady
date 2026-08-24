@@ -5,71 +5,59 @@ import { cx } from '../utils/motion'
 interface LogoProps {
   tone?: 'dark' | 'light'
   className?: string
+  /** Emblem only, without the wordmark beside it. */
   compact?: boolean
-  /** Typeface for the wordmark. The header runs on Montserrat ('nav'). */
-  font?: 'display' | 'nav'
 }
 
 /**
- * Wordmark plus a petal mark drawn in SVG — no raster asset, so it stays crisp
- * from mobile through 4K.
+ * The header lockup: the emblem from the master artwork, set beside a typeset
+ * wordmark.
+ *
+ * The wordmark is type rather than a slice of the logo file. The supplied logo
+ * is a stacked lockup whose gold ring passes behind the lettering, so any
+ * horizontal crop of the wordmark drags fragments of the emblem along above it
+ * — which is exactly what the header was showing. Typesetting it in the site's
+ * display face keeps it clean, legible down to a 360px header, and lets it
+ * change colour over the dark hero without a filter flattening the artwork.
+ *
+ * The full artwork still ships and is used where there is room for it: the
+ * favicons, the touch icon, and `images/logo-full.png`.
  */
-export default function Logo({
-  tone = 'dark',
-  className,
-  compact = false,
-  font = 'display',
-}: LogoProps) {
-  const text = tone === 'light' ? 'text-white' : 'text-ink'
-  const wordmarkFont = font === 'nav' ? 'font-nav' : 'font-display'
-  const captionFont = font === 'nav' ? 'font-nav' : 'font-sans'
+export default function Logo({ tone = 'dark', className, compact = false }: LogoProps) {
+  const light = tone === 'light'
 
   return (
     <Link
       to="/"
       aria-label={`${brand.name} — home`}
-      className={cx('group inline-flex items-center gap-3', className)}
+      className={cx('group inline-flex items-center gap-2.5 sm:gap-3', className)}
     >
-      <span className="relative inline-flex h-9 w-9 shrink-0 items-center justify-center">
-        <svg viewBox="0 0 40 40" className="h-full w-full" aria-hidden="true">
-          <g
-            className="origin-center transition-transform duration-[900ms] ease-luxe group-hover:rotate-45"
-            style={{ transformOrigin: '20px 20px' }}
-          >
-            <path
-              d="M20 4c5 5.4 5 12.8 0 16.5C15 16.8 15 9.4 20 4Z"
-              className="fill-rose-400/85"
-            />
-            <path
-              d="M36 20c-5.4 5-12.8 5-16.5 0C23.2 15 30.6 15 36 20Z"
-              className="fill-rose-500/70"
-            />
-            <path
-              d="M20 36c-5-5.4-5-12.8 0-16.5 5 3.7 5 11.1 0 16.5Z"
-              className="fill-nude-400/80"
-            />
-            <path
-              d="M4 20c5.4-5 12.8-5 16.5 0C16.8 25 9.4 25 4 20Z"
-              className="fill-rose-300/85"
-            />
-          </g>
-          <circle cx="20" cy="20" r="2" className="fill-ink/70" />
-        </svg>
-      </span>
+      <img
+        src="/images/logo-mark.png"
+        alt=""
+        aria-hidden="true"
+        width={512}
+        height={447}
+        className="h-10 w-auto shrink-0 transition-transform duration-[900ms] ease-luxe group-hover:scale-[1.06] sm:h-12"
+      />
 
       {!compact && (
         <span className="flex flex-col leading-none">
-          <span className={cx(wordmarkFont, 'text-2xl font-normal tracking-tight', text)}>
+          <span
+            className={cx(
+              'font-display text-[1.35rem] font-semibold tracking-tight sm:text-[1.6rem]',
+              light ? 'text-cream' : 'text-ink',
+            )}
+          >
             {brand.wordmark}
           </span>
           <span
             className={cx(
-              captionFont,
-              'mt-1 text-[0.5rem] uppercase tracking-luxe',
-              tone === 'light' ? 'text-white/55' : 'text-ink-muted',
+              'mt-1 font-nav text-[0.48rem] font-bold uppercase tracking-luxe sm:text-[0.52rem]',
+              light ? 'text-rose-200' : 'text-rose-600',
             )}
           >
-            Feminine Care
+            Empower. Elevate. Evolve.
           </span>
         </span>
       )}

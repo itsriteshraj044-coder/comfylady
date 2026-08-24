@@ -54,7 +54,7 @@ export default function FaqPage() {
         ]}
       />
 
-      <section className="section bg-cream" aria-label="Frequently asked questions">
+      <section className="section field-cream" aria-label="Frequently asked questions">
         <div className="shell-narrow">
           {/* Search */}
           <motion.div

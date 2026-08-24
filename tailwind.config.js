@@ -49,19 +49,17 @@ export default {
         cream: '#FDFAF7',
         shell: '#F7F1EC',
       },
-      /* The project uses exactly two typefaces: Fahkwang and Montserrat.
-         Nothing else is referenced anywhere — the named fallbacks these stacks
-         used to carry (Georgia, system-ui) are gone, and `mono` is overridden
-         so a <code> element cannot pull in a third face. Only the generic
-         keyword remains as a last resort: it names a category rather than a
-         font, and without one a failed webfont drops to the browser default,
-         which is worse than choosing. */
+      /* Poppins carries all typography. `mono` is
+         overridden so a <code> element cannot pull in a secondary face, and each
+         stack ends in a real fallback so a failed webfont lands somewhere
+         chosen rather than on the browser default. */
       fontFamily: {
-        display: ['Fahkwang', 'serif'],
-        sans: ['Fahkwang', 'sans-serif'],
-        /* Header navigation and hero UI text. */
-        nav: ['Montserrat', 'sans-serif'],
-        mono: ['Fahkwang', 'sans-serif'],
+        /* Headlines and any large display type. */
+        display: ['Poppins', 'system-ui', 'sans-serif'],
+        /* Body copy, UI, navigation — one grotesque for all of it. */
+        sans: ['Poppins', 'system-ui', 'sans-serif'],
+        nav: ['Poppins', 'system-ui', 'sans-serif'],
+        mono: ['Poppins', 'system-ui', 'sans-serif'],
       },
       letterSpacing: {
         /* Uppercase micro-labels need some tracking to stay readable, but the
@@ -79,11 +77,18 @@ export default {
       keyframes: {
         floaty: { '0%,100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-14px)' } },
         marquee: { '0%': { transform: 'translateX(0)' }, '100%': { transform: 'translateX(-50%)' } },
+        /* Slow Ken Burns push for the hero photograph. */
+        'ken-burns': {
+          '0%': { transform: 'scale(1) translate3d(0, 0, 0)' },
+          '100%': { transform: 'scale(1.12) translate3d(-1.5%, -1%, 0)' },
+        },
         shimmer: { '0%': { backgroundPosition: '-200% 0' }, '100%': { backgroundPosition: '200% 0' } },
       },
       animation: {
         floaty: 'floaty 7s ease-in-out infinite',
         marquee: 'marquee 38s linear infinite',
+        'spin-slow': 'spin 26s linear infinite',
+        'ken-burns': 'ken-burns 24s ease-in-out infinite alternate',
         shimmer: 'shimmer 3.4s linear infinite',
       },
     },

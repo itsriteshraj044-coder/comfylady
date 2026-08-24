@@ -12,7 +12,7 @@ const { values } = about
  */
 export default function ValuesSection() {
   return (
-    <section className="section bg-cream" aria-label="Core values">
+    <section className="section field-cream" aria-label="Core values">
       <div className="shell">
         <SectionHeading eyebrow={values.eyebrow} title={values.title} subtitle={values.subtitle} />
 

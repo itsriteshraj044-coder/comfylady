@@ -44,7 +44,15 @@ export default function TextReveal({
       transition={{ delayChildren: delay }}
     >
       {lines.map((line, lineIndex) => (
-        <span key={lineIndex} className="block overflow-hidden pb-[0.12em]" aria-hidden="true">
+        <span
+          key={lineIndex}
+          /* In line mode this span IS the mask, so it carries the descender
+             allowance. In word mode the per-word sleeves below are the masks
+             and carry it themselves — doubling it up here would just add a
+             second gap under every heading. */
+          className={cx('block overflow-hidden', byLine && 'pb-[0.14em]')}
+          aria-hidden="true"
+        >
           {byLine ? (
             <motion.span className="block will-change-transform" variants={wordChild}>
               {line}
@@ -54,7 +62,14 @@ export default function TextReveal({
               <span
                 key={wordIndex}
                 className={cx(
-                  'inline-block overflow-hidden align-bottom',
+                  /* The sleeve clips at its own content box, whose height is
+                     the line-height — and every display size sets one tighter
+                     than the font's ascent+descent. That leaves only
+                     (line-height - 0.831)/2 below the baseline: 0.11em at
+                     display-xl, against a deepest descender of 0.188em. The
+                     g, y and Q of headings were being cut off. 0.14em clears
+                     the worst case with room to spare. */
+                  'inline-block overflow-hidden align-bottom pb-[0.14em]',
                   wordIndex < words.length - 1 ? 'mr-[0.26em]' : '',
                 )}
               >

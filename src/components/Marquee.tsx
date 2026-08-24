@@ -7,7 +7,7 @@ interface MarqueeProps {
   tone?: 'dark' | 'light'
   /** 'sm' is the compact strip used along the bottom of the hero. */
   size?: 'lg' | 'sm'
-  /** 'nav' renders in Montserrat — used by the hero, which is scoped to it. */
+  /** 'nav' renders in Inter — used by the hero, which is scoped to it. */
   font?: 'display' | 'nav'
 }
 
@@ -34,8 +34,8 @@ function Track({
         <span key={`${word}-${index}`} className="flex shrink-0 items-center">
           <span
             className={cx(
-              font === 'nav' ? 'font-nav' : 'font-display',
-              'font-light tracking-tight',
+              font === 'nav' ? 'font-nav font-semibold' : 'font-display font-light',
+              'tracking-tight',
               size === 'sm'
                 ? 'text-[clamp(0.9rem,1.5vw,1.25rem)]'
                 : 'text-[clamp(1.5rem,3.2vw,3.25rem)]',

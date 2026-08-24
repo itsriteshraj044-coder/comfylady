@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Fahkwang:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600&family=Montserrat:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
+
 
 @tailwind base;
 @tailwind components;
@@ -12,6 +13,8 @@
 
   * {
     @apply border-ink-line;
+    font-variant-ligatures: none !important;
+    font-feature-settings: "liga" 0, "calt" 0 !important;
   }
 
   html {
@@ -38,7 +41,7 @@
     font-size: clamp(1rem, 0.94rem + 0.2vw, 1.125rem);
     line-height: 1.7;
     overflow-x: hidden;
-    text-rendering: optimizeLegibility;
+    font-variant-ligatures: none;
   }
 
   /* Nothing may create a horizontal scrollbar. */
@@ -49,9 +52,9 @@
 
   h1, h2, h3, h4, h5 {
     @apply font-display text-ink;
-    font-weight: 300;
+    font-weight: 600;
     line-height: 1.08;
-    letter-spacing: -0.005em;
+    letter-spacing: 0.015em;
   }
 
   /* The custom cursor adds this class once it is actually running, so the
@@ -77,7 +80,7 @@
   }
 
   /* The browser's own stylesheet sets a monospace family on these. Inherit
-     instead, so the page only ever renders in Fahkwang or Montserrat. */
+     instead, so the page only ever renders in its own three faces. */
   code, pre, kbd, samp {
     font-family: inherit;
   }
@@ -129,56 +132,143 @@
      takes 100svh as a floor and is free to grow. The short-viewport guard
      releases the lock on landscape phones, where one screen physically cannot
      hold the composition and clipping would be worse than scrolling. ---- */
+  /* The hero fills the first screen but is never forced to it: every child
+     sits in normal flow, so on a short or zoomed-in viewport the section simply
+     grows instead of stacking its content on top of itself. */
   .hero-stage {
     min-height: 100svh;
   }
 
-  @media (max-width: 639px) {
-    .hero-stage {
-      height: 100svh;
-    }
+  /* A rail you swipe rather than one you drag a bar along. The scrollbar is
+     hidden but the element stays a real scroll container, so keyboard, wheel
+     and touch all still work. */
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
   }
 
-  @media (max-height: 600px) {
-    .hero-stage {
-      height: auto;
-      min-height: 100svh;
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* ---- Frame reveal ----
+     The clip-path wipe that uncovers a framed image. It used to be a
+     framer-motion variant, but `clipPath` in a variant never animated under
+     framer-motion 13 — every ParallaxImage on the site stayed on its hidden
+     frame and the photographs simply never appeared. Driving the same wipe
+     from CSS, toggled by an IntersectionObserver, is both fixed and cheaper:
+     it runs off the main thread. ---- */
+  .reveal-frame {
+    clip-path: inset(0 0 100% 0);
+    transform: scale(1.08);
+    transition:
+      clip-path 1.5s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .reveal-frame.is-revealed {
+    clip-path: inset(0 0 0 0);
+    transform: scale(1);
+  }
+
+  /* ---- Section fields ----
+     The light sections used to be flat cream or flat shell, which read as
+     plain white once several of them stacked up. Each now carries the brand's
+     rose / nude / blush wash as three soft radial blooms over its own base
+     colour, anchored to different corners in each of the two variants so that
+     alternating them down a page reads as one continuous warm field rather
+     than as a repeating tile. The blooms are weak enough (0.3 alpha at their
+     centre, gone by 62%) to leave body copy at full contrast. ---- */
+  .field-cream {
+    background-color: #fdfaf7;
+    background-image:
+      radial-gradient(78% 70% at 8% -10%, rgba(237, 180, 188, 0.62) 0%, transparent 70%),
+      radial-gradient(70% 62% at 98% 16%, rgba(227, 210, 192, 0.58) 0%, transparent 68%),
+      radial-gradient(85% 70% at 44% 116%, rgba(242, 213, 206, 0.6) 0%, transparent 68%);
+  }
+
+  .field-shell {
+    background-color: #f7f1ec;
+    background-image:
+      radial-gradient(74% 66% at 96% -8%, rgba(237, 180, 188, 0.66) 0%, transparent 70%),
+      radial-gradient(78% 68% at 2% 62%, rgba(227, 210, 192, 0.6) 0%, transparent 70%),
+      radial-gradient(76% 62% at 58% 112%, rgba(245, 211, 216, 0.6) 0%, transparent 68%);
+  }
+
+  /* A hairline grid, faded out towards the edges. It gives the hero's soft
+     gradient field a sense of structure without reading as a pattern. */
+  .hero-grid {
+    background-image:
+      linear-gradient(to right, rgba(90, 50, 56, 0.055) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(90, 50, 56, 0.055) 1px, transparent 1px);
+    background-size: clamp(3.5rem, 7vw, 6.5rem) clamp(3.5rem, 7vw, 6.5rem);
+    -webkit-mask-image: radial-gradient(ellipse 75% 65% at 50% 45%, #000 30%, transparent 78%);
+    mask-image: radial-gradient(ellipse 75% 65% at 50% 45%, #000 30%, transparent 78%);
+  }
+
+  /* Hero scroll cue. The dot rides a full-height sleeve, so translating the
+     sleeve by 100% walks it exactly the length of whatever track it is in —
+     no per-breakpoint pixel values. Written as plain CSS rather than a
+     Tailwind keyframe so it cannot go missing if the config is not picked up,
+     and given an explicit resting state under reduced motion, where the global
+     rule below would otherwise freeze it on its transparent last frame. */
+  .scroll-dot {
+    animation: hero-scroll-dot 2.1s cubic-bezier(0.55, 0, 0.45, 1) infinite;
+    will-change: transform, opacity;
+  }
+
+  @keyframes hero-scroll-dot {
+    0% {
+      transform: translateY(0%);
+      opacity: 0;
+    }
+    15% {
+      opacity: 1;
+    }
+    80% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(100%);
+      opacity: 0;
     }
   }
 
   /* ---- Typography scale ----
-     One family (Fahkwang) carries the whole site, so hierarchy comes from
-     size, weight and tracking rather than a display/body contrast. Negative
-     tracking is deliberately mild: Fahkwang already sets tighter than the
-     serif this scale was first drawn for. ---- */
+     Now using Poppins. Grotesques need normal tracking, so the negative
+     tracking from the old didone face has been removed to un-squish letters. ---- */
   .display-hero {
     font-size: clamp(2.75rem, 8.2vw, 10.5rem);
     line-height: 0.98;
-    letter-spacing: -0.018em;
-    font-weight: 300;
+    letter-spacing: 0.015em;
+    font-weight: 700;
   }
 
   .display-xl {
     font-size: clamp(2.25rem, 5.4vw, 6rem);
     line-height: 1.06;
-    letter-spacing: -0.014em;
+    letter-spacing: 0.015em;
+    font-weight: 600;
   }
 
   .display-lg {
     font-size: clamp(1.875rem, 3.6vw, 4rem);
     line-height: 1.1;
-    letter-spacing: -0.011em;
+    letter-spacing: 0.015em;
+    font-weight: 600;
   }
 
   .display-md {
     font-size: clamp(1.5rem, 2.2vw, 2.5rem);
     line-height: 1.18;
-    letter-spacing: -0.008em;
+    letter-spacing: 0.015em;
+    font-weight: 600;
   }
 
   .display-sm {
     font-size: clamp(1.25rem, 1.5vw, 1.6rem);
     line-height: 1.25;
+    font-weight: 600;
   }
 
   .eyebrow {
@@ -384,5 +474,20 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
+  }
+
+  /* Collapsing the loop above would leave the hero's scroll dot parked on its
+     final, transparent frame — an empty track. Rest it on the line instead. */
+  .scroll-dot {
+    animation: none !important;
+    transform: translateY(40%);
+    opacity: 1;
+  }
+
+  /* Same reasoning: with transitions collapsed, an unrevealed frame would stay
+     clipped away. Show it outright. */
+  .reveal-frame {
+    clip-path: none;
+    transform: none;
   }
 }

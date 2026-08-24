@@ -12,7 +12,7 @@ const { comparison } = whyPage
  */
 export default function ComparisonSection() {
   return (
-    <section className="section bg-shell/60" aria-label="What changes when comfort is engineered">
+    <section className="section field-shell" aria-label="What changes when comfort is engineered">
       <div className="shell">
         <SectionHeading eyebrow={comparison.eyebrow} title={comparison.title} align="center" />
 

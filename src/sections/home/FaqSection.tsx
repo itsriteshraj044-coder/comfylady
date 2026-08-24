@@ -10,7 +10,7 @@ const { faq } = home
 /** SECTION 8 — FAQ. A short, curated selection; the full set lives on /faq. */
 export default function FaqSection() {
   return (
-    <section className="section relative bg-cream" aria-label="Frequently asked questions">
+    <section className="section relative field-cream" aria-label="Frequently asked questions">
       <div className="shell">
         <div className="grid gap-14 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-5">

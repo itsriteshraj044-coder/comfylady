@@ -12,7 +12,7 @@ export default function ProductGridSection() {
   const [selected, setSelected] = useState<Product | null>(null)
 
   return (
-    <section className="section bg-cream" aria-label="Product range">
+    <section className="section field-cream" aria-label="Product range">
       <div className="shell">
         <SectionHeading eyebrow={grid.eyebrow} title={grid.title} subtitle={grid.subtitle} />
 

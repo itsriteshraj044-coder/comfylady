@@ -14,7 +14,7 @@ const { why } = home
  */
 export default function WhyChooseSection() {
   return (
-    <section className="section relative bg-cream" aria-label="Why choose Comfylady">
+    <section className="section relative field-cream" aria-label="Why choose Comfylady">
       <div className="shell">
         <SectionHeading
           eyebrow={why.eyebrow}

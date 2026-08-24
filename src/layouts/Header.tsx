@@ -29,6 +29,11 @@ export default function Header() {
 
   useEffect(() => setOpen(false), [pathname])
 
+  /* The home page opens on a full-bleed photographic hero graded dark, so the
+     header inverts to cream over it and returns to ink the moment the glass
+     panel slides in on scroll. Every other route starts on cream. */
+  const overDark = pathname === '/' && !scrolled
+
   useEffect(() => {
     const lenis = getLenis()
     if (open) {
@@ -56,7 +61,7 @@ export default function Header() {
     <>
       <a
         href="#main"
-        className="sr-only font-nav focus:not-sr-only focus:fixed focus:left-6 focus:top-6 focus:z-[100] focus:rounded-full focus:bg-ink focus:px-6 focus:py-3 focus:text-xs focus:uppercase focus:tracking-wide2 focus:text-cream"
+        className="sr-only font-nav focus:not-sr-only focus:fixed focus:left-6 focus:top-6 focus:z-[100] focus:rounded-full focus:bg-ink focus:px-6 focus:py-3 focus:text-xs focus:font-semibold focus:uppercase focus:tracking-wide2 focus:text-cream"
       >
         Skip to content
       </a>
@@ -73,7 +78,7 @@ export default function Header() {
         )}
       >
         <div className="shell flex items-center justify-between gap-6">
-          <Logo font="nav" />
+          <Logo tone={overDark ? 'light' : 'dark'} />
 
           <nav aria-label="Primary" className="hidden items-center gap-1 xl:flex">
             {navigation.map((item) => (
@@ -82,8 +87,14 @@ export default function Header() {
                 to={item.path}
                 className={({ isActive }) =>
                   cx(
-                    'group relative px-4 py-2 font-nav text-[0.7rem] font-medium uppercase tracking-wide2 transition-colors duration-500',
-                    isActive ? 'text-rose-600' : 'text-ink-soft hover:text-ink',
+                    'group relative px-4 py-2 font-nav text-[0.7rem] font-bold uppercase tracking-wide2 transition-colors duration-500',
+                    isActive
+                      ? overDark
+                        ? 'text-rose-200'
+                        : 'text-rose-600'
+                      : overDark
+                        ? 'text-cream/75 hover:text-cream'
+                        : 'text-ink-soft hover:text-ink',
                   )
                 }
               >
@@ -92,7 +103,8 @@ export default function Header() {
                     <span>{item.label}</span>
                     <span
                       className={cx(
-                        'absolute inset-x-4 bottom-1 h-px origin-left bg-rose-500 transition-transform duration-500 ease-luxe',
+                        'absolute inset-x-4 bottom-1 h-px origin-left transition-transform duration-500 ease-luxe',
+                        overDark ? 'bg-rose-200' : 'bg-rose-500',
                         isActive ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100',
                       )}
                       aria-hidden="true"
@@ -106,15 +118,23 @@ export default function Header() {
           <div className="flex items-center gap-3">
             <a
               href={contactDetails.phoneHref}
-              className="hidden items-center gap-2 font-nav text-[0.7rem] font-medium uppercase tracking-wide2 text-ink-soft transition-colors duration-500 hover:text-rose-600 lg:inline-flex"
+              className={cx(
+                'hidden items-center gap-2 font-nav text-[0.7rem] font-bold uppercase tracking-wide2 transition-colors duration-500 lg:inline-flex',
+                overDark
+                  ? 'text-cream/75 hover:text-rose-200'
+                  : 'text-ink-soft hover:text-rose-600',
+              )}
             >
               <Phone className="h-3.5 w-3.5" strokeWidth={1.5} aria-hidden="true" />
               {contactDetails.phoneLabel}
             </a>
 
             <Magnetic className="hidden xl:block">
-              <Link to="/contact" className="btn btn-primary btn-sm group font-nav">
-                <span className="relative z-10">Enquire</span>
+              <Link
+                to="/contact"
+                className={cx('btn btn-sm group font-nav', overDark ? 'btn-light' : 'btn-primary')}
+              >
+                <span className="relative z-10 font-bold">Enquire</span>
               </Link>
             </Magnetic>
 
@@ -123,7 +143,12 @@ export default function Header() {
               onClick={() => setOpen(true)}
               aria-label="Open menu"
               aria-expanded={open}
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-ink/15 text-ink transition-colors duration-500 hover:border-rose-400 hover:text-rose-600 xl:hidden"
+              className={cx(
+                'inline-flex h-11 w-11 items-center justify-center rounded-full transition-colors duration-500 xl:hidden',
+                overDark
+                  ? 'border border-white/30 text-cream hover:border-rose-200 hover:text-rose-200'
+                  : 'border border-ink/15 text-ink hover:border-rose-400 hover:text-rose-600',
+              )}
             >
               <Menu className="h-5 w-5" strokeWidth={1.4} aria-hidden="true" />
             </button>
@@ -149,7 +174,7 @@ export default function Header() {
 
             <div className="shell relative flex min-h-screen flex-col py-6">
               <div className="flex items-center justify-between">
-                <Logo font="nav" />
+                <Logo />
                 <button
                   ref={closeButtonRef}
                   type="button"
@@ -175,12 +200,12 @@ export default function Header() {
                         to={item.path}
                         className={({ isActive }) =>
                           cx(
-                            'group flex items-baseline gap-5 py-4 font-nav text-[clamp(1.4rem,5.4vw,2.25rem)] font-medium leading-none tracking-[-0.01em] transition-colors duration-500',
+                            'group flex items-baseline gap-5 py-4 font-nav text-[clamp(1.4rem,5.4vw,2.25rem)] font-bold leading-none tracking-[-0.01em] transition-colors duration-500',
                             isActive ? 'text-rose-600' : 'text-ink hover:text-rose-600',
                           )
                         }
                       >
-                        <span className="font-nav text-[0.55rem] tracking-luxe text-ink-muted">
+                        <span className="font-nav text-[0.55rem] font-semibold tracking-luxe text-ink-muted">
                           0{index + 1}
                         </span>
                         <span>{item.label}</span>
@@ -197,20 +222,20 @@ export default function Header() {
                 className="mt-12 flex flex-col gap-8 border-t border-ink-line/70 pt-8 sm:flex-row sm:items-end sm:justify-between"
               >
                 <div className="space-y-2">
-                  <p className="eyebrow font-nav">Get in touch</p>
+                  <p className="eyebrow font-nav font-bold">Get in touch</p>
                   <a
                     href={contactDetails.phoneHref}
-                    className="block font-nav text-2xl font-light text-ink"
+                    className="block font-nav text-2xl font-semibold text-ink"
                   >
                     {contactDetails.phoneLabel}
                   </a>
                   <a
                     href={`mailto:${contactDetails.emailGeneral}`}
-                    className="block text-sm text-ink-soft"
+                    className="block text-sm font-semibold text-ink-soft"
                   >
                     {contactDetails.emailGeneral}
                   </a>
-                  <p className="max-w-xs text-sm text-ink-muted">{contactDetails.addressSingle}</p>
+                  <p className="max-w-xs text-sm font-medium text-ink-muted">{contactDetails.addressSingle}</p>
                 </div>
 
                 <ul className="flex gap-3">

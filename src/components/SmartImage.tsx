@@ -13,9 +13,9 @@ interface SmartImageProps {
   sizes?: string
   /**
    * 'minimal' draws the blush field only, with no caption. Use it wherever the
-   * frame is too small or too far back to carry text — the hero's inline
-   * capsule and its faded backdrop, for instance, where the descriptive
-   * placeholder would overflow or ghost through.
+   * frame is too small or too far back to carry text — a faded backdrop, for
+   * instance, where the descriptive placeholder would overflow or ghost
+   * through.
    */
   placeholder?: 'full' | 'minimal'
 }

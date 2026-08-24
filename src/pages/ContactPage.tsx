@@ -34,7 +34,7 @@ export default function ContactPage() {
       />
 
       {/* Ways to reach us */}
-      <section className="section bg-cream" aria-label="Get in touch">
+      <section className="section field-cream" aria-label="Get in touch">
         <div className="shell">
           <SectionHeading
             eyebrow={contactPage.getInTouch.eyebrow}
@@ -93,7 +93,7 @@ export default function ContactPage() {
       </section>
 
       {/* Form */}
-      <section className="section bg-shell/60" aria-label="Send us a message">
+      <section className="section field-shell" aria-label="Send us a message">
         <div className="shell">
           <div className="grid gap-14 lg:grid-cols-12 lg:gap-16">
             <div className="lg:col-span-4">
@@ -135,7 +135,7 @@ export default function ContactPage() {
       </section>
 
       {/* Map */}
-      <section className="relative bg-cream pb-[clamp(4rem,7vw,8rem)]" aria-label="Find us">
+      <section className="relative field-cream pb-[clamp(4rem,7vw,8rem)]" aria-label="Find us">
         <div className="shell">
           <div className="flex flex-col gap-8 pb-10 pt-[clamp(4rem,7vw,8rem)] lg:flex-row lg:items-end lg:justify-between">
             <SectionHeading

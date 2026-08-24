@@ -29,7 +29,7 @@ export default function PillarsSection() {
   }
 
   return (
-    <section className="section bg-cream" aria-label="The six pillars">
+    <section className="section field-cream" aria-label="The six pillars">
       <div className="shell">
         <SectionHeading
           eyebrow={pillars.eyebrow}

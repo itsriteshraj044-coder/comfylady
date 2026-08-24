@@ -12,7 +12,7 @@ const { specTable } = productsPage
  */
 export default function SpecTableSection() {
   return (
-    <section className="section bg-shell/60" aria-label="Product specifications">
+    <section className="section field-shell" aria-label="Product specifications">
       <div className="shell">
         <SectionHeading
           eyebrow={specTable.eyebrow}

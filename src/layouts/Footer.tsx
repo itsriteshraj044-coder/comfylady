@@ -99,7 +99,7 @@ export default function Footer() {
 
         {/* Columns */}
         <div className="grid gap-12 py-16 sm:grid-cols-2 lg:grid-cols-12">
-          <div className="lg:col-span-4">
+          <div className="lg:col-span-3">
             <Logo tone="light" />
             <p className="mt-6 max-w-xs text-sm leading-relaxed text-white/50">{brand.tagline}</p>
             <ul className="mt-8 flex gap-3">
@@ -136,7 +136,7 @@ export default function Footer() {
             </nav>
           ))}
 
-          <address className="not-italic lg:col-span-4">
+          <address className="not-italic lg:col-span-3">
             <p className="eyebrow text-white/45">Contact</p>
             <ul className="mt-6 space-y-5 text-sm text-white/65">
               <li className="flex gap-3">
@@ -184,7 +184,7 @@ export default function Footer() {
         </div>
 
         {/* Oversized wordmark */}
-        <div className="relative overflow-hidden border-t border-white/10 pt-10">
+        <div className="relative overflow-hidden border-t border-white/10 pt-10 pb-6">
           <motion.p
             initial={{ y: '40%', opacity: 0 }}
             whileInView={{ y: '0%', opacity: 1 }}
@@ -192,7 +192,7 @@ export default function Footer() {
             transition={{ duration: 1.3, ease: [0.16, 1, 0.3, 1] }}
             aria-hidden="true"
             className={cx(
-              'select-none text-center font-display font-light leading-[0.8] tracking-tight',
+              'select-none text-center font-display font-light leading-none tracking-tight',
               'text-[clamp(3.5rem,17vw,17rem)] text-white/[0.07]',
             )}
           >

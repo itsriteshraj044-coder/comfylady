@@ -97,7 +97,7 @@ export default function ProductDetail({ product, onClose }: ProductDetailProps) 
               >
                 {product.name}
               </h2>
-              <p className="mt-3 font-display text-xl font-light italic text-ink/75">
+              <p className="mt-3 font-sans text-xl font-light italic text-ink/75">
                 {product.tagline}
               </p>
               <p className="body-muted mt-6 max-w-prose2 text-pretty">{product.description}</p>

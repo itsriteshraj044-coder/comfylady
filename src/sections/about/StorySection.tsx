@@ -9,7 +9,7 @@ const { story } = about
 /** About — the founding story, with a milestone ledger beneath the copy. */
 export default function StorySection() {
   return (
-    <section className="section bg-cream" aria-label="Our story">
+    <section className="section field-cream" aria-label="Our story">
       <div className="shell">
         <div className="grid gap-16 lg:grid-cols-12 lg:gap-14 xl:gap-20">
           <div className="lg:col-span-7 lg:pr-8">
@@ -26,7 +26,7 @@ export default function StorySection() {
                   viewport={viewportSoft}
                   className={
                     index === 0
-                      ? 'max-w-prose2 text-pretty font-display text-[clamp(1.25rem,1.9vw,1.75rem)] font-light italic leading-snug text-ink/85'
+                      ? 'max-w-prose2 text-pretty font-sans text-[clamp(1.25rem,1.9vw,1.75rem)] font-light italic leading-snug text-ink/85'
                       : 'body-muted max-w-prose2 text-pretty'
                   }
                 >

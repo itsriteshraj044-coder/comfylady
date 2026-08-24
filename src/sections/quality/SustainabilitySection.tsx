@@ -10,7 +10,7 @@ const { sustainability } = qualityPage
 /** Quality — the sustainability commitment, environmental and social. */
 export default function SustainabilitySection() {
   return (
-    <section className="section bg-cream" aria-label="Sustainability commitment">
+    <section className="section field-cream" aria-label="Sustainability commitment">
       <div className="shell">
         <div className="grid gap-14 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-6 lg:pt-8">

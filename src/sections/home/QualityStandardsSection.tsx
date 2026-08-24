@@ -16,9 +16,11 @@ const { quality } = home
  */
 export default function QualityStandardsSection() {
   return (
-    <section className="section relative bg-cream" aria-label="Quality standards">
+    <section className="section relative field-cream" aria-label="Quality standards">
       <div className="shell">
-        <div className="grid gap-16 lg:grid-cols-12 lg:gap-14 xl:gap-20">
+        {/* `items-center` because the photograph is landscape and therefore
+            shorter than the copy beside it. */}
+        <div className="grid items-center gap-16 lg:grid-cols-12 lg:gap-14 xl:gap-20">
           <div className="lg:col-span-6">
             <SectionHeading
               eyebrow={quality.eyebrow}
@@ -52,12 +54,17 @@ export default function QualityStandardsSection() {
           </div>
 
           <div className="lg:col-span-6">
+            {/* The frame follows the photograph, not the other way round. It
+                was set to 4:5 and 3:4 portrait over a 1376×768 landscape
+                source, so `object-cover` was throwing away well over half the
+                width — which is what read as a zoom with the subject cut off.
+                16:9 is within a percent of the file's native 1.792. */}
             <ParallaxImage
               src={quality.image}
               alt={quality.imageAlt}
               label="Manufacturing"
-              ratio="aspect-[4/5] lg:aspect-[3/4]"
-              strength={11}
+              ratio="aspect-[16/9]"
+              strength={6}
             />
           </div>
         </div>
