@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { ArrowRight, Check, Clock, Mail, MapPin, Phone } from 'lucide-react'
+import { ArrowRight, Check, Mail, MapPin, Phone } from 'lucide-react'
 import Logo from '../components/Logo'
 import SocialIcon from '../components/SocialIcon'
 import TextReveal from '../components/TextReveal'
@@ -107,6 +107,8 @@ export default function Footer() {
                 <li key={social.id}>
                   <a
                     href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     aria-label={`${brand.name} on ${social.label}`}
                     className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/20 text-white/70@ transition-all duration-500 hover:border-rose-300 hover:text-rose-200"
                   >
@@ -170,13 +172,6 @@ export default function Footer() {
                       {line}
                     </span>
                   ))}
-                </span>
-              </li>
-              <li className="flex gap-3">
-                <Clock className="mt-0.5 h-4 w-4 shrink-0 text-rose-300" strokeWidth={1.4} aria-hidden="true" />
-                <span>
-                  <span className="block">{contactDetails.hours}</span>
-                  <span className="block text-white/40">{contactDetails.hoursClosed}</span>
                 </span>
               </li>
             </ul>

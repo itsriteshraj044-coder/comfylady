@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
-import { Link, NavLink, useLocation } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom'
 import { AnimatePresence, motion, useScroll } from 'framer-motion'
-import { Menu, Phone, X } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 import Logo from '../components/Logo'
 import Magnetic from '../components/Magnetic'
 import { LUXE_EASE } from '../animations/variants'
@@ -9,6 +9,7 @@ import { brand, contactDetails, navigation, socialLinks } from '../content/conte
 import { getLenis } from '../hooks/useSmoothScroll'
 import { cx } from '../utils/motion'
 import SocialIcon from '../components/SocialIcon'
+import EnquireModal from '../components/EnquireModal'
 
 /**
  * Sticky header that condenses on scroll, plus a full-screen editorial menu on
@@ -18,6 +19,7 @@ import SocialIcon from '../components/SocialIcon'
 export default function Header() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
+  const [enquireOpen, setEnquireOpen] = useState(false)
   const { scrollY } = useScroll()
   const { pathname } = useLocation()
   const closeButtonRef = useRef<HTMLButtonElement | null>(null)
@@ -116,26 +118,14 @@ export default function Header() {
           </nav>
 
           <div className="flex items-center gap-3">
-            <a
-              href={contactDetails.phoneHref}
-              className={cx(
-                'hidden items-center gap-2 font-nav text-[0.7rem] font-bold uppercase tracking-wide2 transition-colors duration-500 lg:inline-flex',
-                overDark
-                  ? 'text-cream/75 hover:text-rose-200'
-                  : 'text-ink-soft hover:text-rose-600',
-              )}
-            >
-              <Phone className="h-3.5 w-3.5" strokeWidth={1.5} aria-hidden="true" />
-              {contactDetails.phoneLabel}
-            </a>
-
             <Magnetic className="hidden xl:block">
-              <Link
-                to="/contact"
+              <button
+                type="button"
+                onClick={() => setEnquireOpen(true)}
                 className={cx('btn btn-sm group font-nav', overDark ? 'btn-light' : 'btn-primary')}
               >
                 <span className="relative z-10 font-bold">Enquire</span>
-              </Link>
+              </button>
             </Magnetic>
 
             <button
@@ -243,6 +233,8 @@ export default function Header() {
                     <li key={social.id}>
                       <a
                         href={social.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         aria-label={`${brand.name} on ${social.label}`}
                         className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-ink/15 text-ink transition-colors duration-500 hover:border-rose-400 hover:text-rose-600"
                       >
@@ -256,6 +248,8 @@ export default function Header() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      <EnquireModal open={enquireOpen} onClose={() => setEnquireOpen(false)} />
     </>
   )
 }

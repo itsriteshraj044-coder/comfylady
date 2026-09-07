@@ -64,7 +64,7 @@ export const faqSchema = {
 export const productListSchema = {
   '@context': 'https://schema.org',
   '@type': 'ItemList',
-  name: 'Comfylady Sanitary Pad Range',
+  name: 'Comfylady Product Range',
   itemListElement: products.map((product, index) => ({
     '@type': 'ListItem',
     position: index + 1,

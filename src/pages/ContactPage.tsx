@@ -47,7 +47,7 @@ export default function ContactPage() {
             initial="hidden"
             whileInView="show"
             viewport={viewportSoft}
-            className="mt-[clamp(3rem,5vw,5rem)] grid gap-7 sm:grid-cols-2 xl:grid-cols-4"
+            className="mt-[clamp(3rem,5vw,5rem)] grid gap-7 sm:grid-cols-2 xl:grid-cols-3"
           >
             {contactPage.getInTouch.cards.map((card, index) => (
               <motion.li

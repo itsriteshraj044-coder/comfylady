@@ -23,7 +23,7 @@ export default function ProductShowcaseSection() {
      where the cards are opaque and hide it completely. */
   const wordY = useTransform(scrollYProgress, [0, 1], ['-6vh', '46vh'])
 
-  const featured = [products[0], products[4], products[5]]
+  const featured = [products[0], products[2], products[3]]
 
   return (
     <section ref={ref} className="section relative overflow-hidden field-shell" aria-label="Our products">

@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion'
 import SectionHeading from '../../components/SectionHeading'
 import ButtonLink from '../../components/ButtonLink'
-import ParallaxImage from '../../components/ParallaxImage'
 import StatCounter from '../../components/StatCounter'
 import Icon from '../../components/Icon'
 import { fadeUp, staggerParent, viewportSoft } from '../../animations/variants'
@@ -54,18 +53,20 @@ export default function QualityStandardsSection() {
           </div>
 
           <div className="lg:col-span-6">
-            {/* The frame follows the photograph, not the other way round. It
-                was set to 4:5 and 3:4 portrait over a 1376×768 landscape
-                source, so `object-cover` was throwing away well over half the
-                width — which is what read as a zoom with the subject cut off.
-                16:9 is within a percent of the file's native 1.792. */}
-            <ParallaxImage
-              src={quality.image}
-              alt={quality.imageAlt}
-              label="Manufacturing"
-              ratio="aspect-[16/9]"
-              strength={6}
-            />
+            {/* Looping, muted, controls-free manufacturing clip in the same
+                clipped frame the photograph used before. */}
+            <div className="img-frame relative mx-auto aspect-[9/16] max-w-md overflow-hidden rounded-sm bg-shell">
+              <video
+                className="h-full w-full object-cover"
+                src={quality.video}
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="auto"
+                aria-label={quality.imageAlt}
+              />
+            </div>
           </div>
         </div>
 

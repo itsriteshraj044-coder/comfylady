@@ -49,7 +49,7 @@ export default function SpecTableSection() {
             <tbody>
               {productSpecs.map((row, index) => (
                 <motion.tr
-                  key={`${row.category}-${row.topSheet}`}
+                  key={`${row.category}-${row.size}-${index}`}
                   variants={fadeUp}
                   custom={index}
                   className="group border-b border-ink-line/70 transition-colors duration-500 last:border-b-0 hover:bg-blush-100/50"
@@ -86,7 +86,7 @@ export default function SpecTableSection() {
         >
           {productSpecs.map((row, index) => (
             <motion.li
-              key={`${row.category}-${row.topSheet}-card`}
+              key={`${row.category}-${row.size}-${index}-card`}
               variants={fadeUp}
               custom={index}
               className="rounded-sm border border-ink-line bg-cream p-6"
@@ -103,7 +103,7 @@ export default function SpecTableSection() {
                   <dd className="text-ink">{row.length}</dd>
                 </div>
                 <div className="flex justify-between gap-4">
-                  <dt className="text-ink-muted">Top sheet</dt>
+                  <dt className="text-ink-muted">Weight / Wings</dt>
                   <dd className="text-ink">{row.topSheet}</dd>
                 </div>
                 <div className="flex justify-between gap-4">
