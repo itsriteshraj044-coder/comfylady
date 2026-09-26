@@ -30,8 +30,8 @@ export default function SpecTableSection() {
         >
           <table className="w-full min-w-[46rem] border-collapse text-left">
             <caption className="sr-only">
-              Comfylady sanitary pad specifications by category, size, length, top sheet material
-              and absorption capacity
+              Comfylady sanitary pad specifications by product, size, length, top sheet or chip,
+              and format
             </caption>
             <thead>
               <tr className="border-b border-ink-line bg-blush-100/70">
@@ -49,7 +49,7 @@ export default function SpecTableSection() {
             <tbody>
               {productSpecs.map((row, index) => (
                 <motion.tr
-                  key={`${row.category}-${row.size}-${index}`}
+                  key={`${row.product}-${row.size}-${index}`}
                   variants={fadeUp}
                   custom={index}
                   className="group border-b border-ink-line/70 transition-colors duration-500 last:border-b-0 hover:bg-blush-100/50"
@@ -58,7 +58,7 @@ export default function SpecTableSection() {
                     scope="row"
                     className="px-6 py-6 font-display text-lg font-light text-ink lg:px-8"
                   >
-                    {row.category}
+                    {row.product}
                   </th>
                   <td className="px-6 py-6 lg:px-8">
                     <span className="inline-flex items-center rounded-full border border-ink-line px-3 py-1 font-sans text-[0.6rem] uppercase tracking-wide2 text-ink-soft transition-colors duration-500 group-hover:border-rose-300 group-hover:text-rose-700">
@@ -66,10 +66,10 @@ export default function SpecTableSection() {
                     </span>
                   </td>
                   <td className="px-6 py-6 text-sm text-ink-soft lg:px-8">{row.length}</td>
-                  <td className="px-6 py-6 text-sm text-ink-soft lg:px-8">{row.topSheet}</td>
                   <td className="px-6 py-6 font-display text-lg font-light text-rose-700 lg:px-8">
-                    {row.absorption}
+                    {row.material}
                   </td>
+                  <td className="px-6 py-6 text-sm text-ink-soft lg:px-8">{row.format}</td>
                 </motion.tr>
               ))}
             </tbody>
@@ -86,13 +86,13 @@ export default function SpecTableSection() {
         >
           {productSpecs.map((row, index) => (
             <motion.li
-              key={`${row.category}-${row.size}-${index}-card`}
+              key={`${row.product}-${row.size}-${index}-card`}
               variants={fadeUp}
               custom={index}
               className="rounded-sm border border-ink-line bg-cream p-6"
             >
               <div className="flex items-start justify-between gap-4">
-                <h3 className="font-display text-xl font-light text-ink">{row.category}</h3>
+                <h3 className="font-display text-xl font-light text-ink">{row.product}</h3>
                 <span className="shrink-0 rounded-full border border-ink-line px-3 py-1 font-sans text-[0.58rem] uppercase tracking-wide2 text-ink-soft">
                   {row.size}
                 </span>
@@ -103,12 +103,12 @@ export default function SpecTableSection() {
                   <dd className="text-ink">{row.length}</dd>
                 </div>
                 <div className="flex justify-between gap-4">
-                  <dt className="text-ink-muted">Weight / Wings</dt>
-                  <dd className="text-ink">{row.topSheet}</dd>
+                  <dt className="text-ink-muted">Top Sheet / Chip</dt>
+                  <dd className="font-display text-lg font-light text-rose-700">{row.material}</dd>
                 </div>
                 <div className="flex justify-between gap-4">
-                  <dt className="text-ink-muted">Absorption</dt>
-                  <dd className="font-display text-lg font-light text-rose-700">{row.absorption}</dd>
+                  <dt className="text-ink-muted">Format</dt>
+                  <dd className="text-ink">{row.format}</dd>
                 </div>
               </dl>
             </motion.li>

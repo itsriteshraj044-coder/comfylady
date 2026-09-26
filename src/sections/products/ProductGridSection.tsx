@@ -23,6 +23,7 @@ export default function ProductGridSection() {
               product={product}
               index={index}
               onSelect={setSelected}
+              showSizeBadge={false}
             />
           ))}
         </div>

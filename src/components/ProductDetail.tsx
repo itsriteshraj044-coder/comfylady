@@ -83,8 +83,14 @@ export default function ProductDetail({ product, onClose }: ProductDetailProps) 
               </button>
             </div>
 
-            <div className="img-frame aspect-[16/11] w-full shrink-0">
-              <SmartImage src={product.image} alt={product.imageAlt} label={product.name} />
+            <div className="img-frame aspect-[16/11] w-full shrink-0 bg-shell">
+              {/* Contained, not covered: portrait product shots stay whole in the landscape frame. */}
+              <SmartImage
+                src={product.image}
+                alt={product.imageAlt}
+                label={product.name}
+                imgClassName="!object-contain"
+              />
             </div>
 
             <div className="px-6 py-10 lg:px-10 lg:py-14">

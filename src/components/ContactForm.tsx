@@ -1,9 +1,10 @@
-import { useState, type ChangeEvent, type FormEvent } from 'react'
+import { useRef, useState, type ChangeEvent, type FormEvent } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Check, Send } from 'lucide-react'
 import { LUXE_EASE } from '../animations/variants'
 import { contactPage } from '../content/content'
 import { cx } from '../utils/motion'
+import { sendEnquiry } from '../utils/enquiry'
 
 const { form } = contactPage
 
@@ -35,14 +36,16 @@ function validate(values: FormState): FormErrors {
  * `aria-invalid`/`aria-describedby` and only surface after a field has been
  * touched, so nothing shouts at you mid-typing.
  *
- * Submission is front-end only — wire `handleSubmit` to your backend, CRM or
- * form service. Nothing is transmitted as shipped.
+ * Enquiries are emailed via `sendEnquiry` (see utils/enquiry.ts).
  */
 export default function ContactForm() {
   const [values, setValues] = useState<FormState>(EMPTY)
   const [errors, setErrors] = useState<FormErrors>({})
   const [touched, setTouched] = useState<Partial<Record<keyof FormState, boolean>>>({})
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent'>('idle')
+  const [consent, setConsent] = useState(false)
+  const [consentError, setConsentError] = useState(false)
+  const [sendFailed, setSendFailed] = useState(false)
 
   const update =
     (field: keyof FormState) =>
@@ -57,8 +60,34 @@ export default function ContactForm() {
     setErrors(validate(values))
   }
 
+  /**
+   * The latest send, keyed by its contents, so an unchanged form is emailed
+   * once — even when the submit button is pressed while the background send
+   * from the consent box is still in flight. A failed send is forgotten so it
+   * can be retried.
+   */
+  const lastSend = useRef<{ key: string; request: Promise<void> } | null>(null)
+
+  const deliver = (enquiry: FormState) => {
+    const key = JSON.stringify(enquiry)
+    if (lastSend.current?.key === key) return lastSend.current.request
+    const request = sendEnquiry(enquiry).catch((error: unknown) => {
+      if (lastSend.current?.request === request) lastSend.current = null
+      throw error
+    })
+    lastSend.current = { key, request }
+    return request
+  }
+
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault()
+    if (status === 'sending') return
+    if (!consent) {
+      setConsentError(true)
+      document.getElementById('contact-consent')?.focus()
+      return
+    }
+
     const nextErrors = validate(values)
     setErrors(nextErrors)
     setTouched({ name: true, email: true, phone: true, purpose: true, message: true })
@@ -69,15 +98,40 @@ export default function ContactForm() {
     }
 
     setStatus('sending')
-    // Replace with a real submission (fetch to your endpoint / form service).
-    await new Promise((resolve) => setTimeout(resolve, 1100))
-    setStatus('sent')
+    setSendFailed(false)
+    try {
+      await deliver(values)
+      setStatus('sent')
+    } catch {
+      setSendFailed(true)
+      setStatus('idle')
+    }
+  }
+
+  /**
+   * Ticking the consent box emails the enquiry in the background as soon as
+   * every field is valid. Nothing changes on screen: the thank-you message only
+   * appears once the visitor presses the submit button.
+   */
+  const handleConsent = (event: ChangeEvent<HTMLInputElement>) => {
+    const checked = event.target.checked
+    setConsent(checked)
+    setConsentError(false)
+    if (checked && Object.keys(validate(values)).length === 0) {
+      deliver(values).catch(() => {
+        /* The submit button retries the send. */
+      })
+    }
   }
 
   const reset = () => {
     setValues(EMPTY)
     setErrors({})
     setTouched({})
+    setConsent(false)
+    setConsentError(false)
+    setSendFailed(false)
+    lastSend.current = null
     setStatus('idle')
   }
 
@@ -296,7 +350,34 @@ export default function ContactForm() {
             </div>
 
             <div className="flex flex-col gap-5 sm:col-span-2 sm:flex-row sm:items-center sm:justify-between">
-              <p className="max-w-sm text-xs leading-relaxed text-ink-muted">{form.consent}</p>
+              <div className="max-w-sm">
+                <label
+                  htmlFor="contact-consent"
+                  className="flex cursor-pointer items-start gap-3 text-xs leading-relaxed text-ink-muted"
+                >
+                  <input
+                    id="contact-consent"
+                    name="consent"
+                    type="checkbox"
+                    checked={consent}
+                    onChange={handleConsent}
+                    aria-invalid={consentError}
+                    aria-describedby={consentError ? 'error-consent' : undefined}
+                    className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer accent-rose-500"
+                  />
+                  <span>{form.consent}</span>
+                </label>
+                {consentError && (
+                  <p id="error-consent" className="mt-2 text-xs text-rose-600">
+                    {form.errors.consent}
+                  </p>
+                )}
+                {sendFailed && (
+                  <p className="mt-2 text-xs text-rose-600" role="alert">
+                    {form.errors.send}
+                  </p>
+                )}
+              </div>
               <button
                 type="submit"
                 disabled={status === 'sending'}

@@ -21,11 +21,12 @@ export interface FeatureItem {
 }
 
 export interface ProductSpec {
-  category: string
+  product: string
   size: string
   length: string
-  topSheet: string
-  absorption: string
+  /** Top sheet, or the chip for chip pads. */
+  material: string
+  format: string
 }
 
 export interface Product {
