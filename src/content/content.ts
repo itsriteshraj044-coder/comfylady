@@ -243,7 +243,6 @@ export const home = {
     subtitle:
       'Whether you are an established brand looking for a flawless OEM manufacturer, an organisation driving social change, or a distributor ready to scale your portfolio — Comfylady is your ideal partner.',
     primaryCta: { label: 'Request a Bulk Quote or OEM Consultation', href: '/contact' },
-    secondaryCta: { label: 'Call +91 85915 00675', href: 'tel:+918591500675' },
   },
 }
 
@@ -1050,7 +1049,7 @@ export const faqs: FAQItem[] = [
     category: 'Business & Export',
     question: 'How quickly will my enquiry be answered?',
     answer:
-      'Our client relationship team responds to enquiries within 24 to 48 business hours. For urgent business matters, call our hotline on +91 85915 00675 between 9:00 AM and 6:00 PM IST, Monday to Saturday.',
+      'Our client relationship team responds to enquiries within 12 to 24 business hours. For urgent business matters, call our hotline on +91 85915 00675 between 9:00 AM and 6:00 PM IST, Monday to Saturday.',
   },
 ]
 
@@ -1499,9 +1498,8 @@ export const faqPage = {
   cta: {
     eyebrow: 'Still Curious',
     title: 'Cannot find your answer?',
-    subtitle: 'Our client relationship team replies within 24 to 48 business hours.',
+    subtitle: 'Our client relationship team replies within 12 to 24 business hours.',
     primaryCta: { label: 'Ask Our Team', href: '/contact' },
-    secondaryCta: { label: 'Call +91 85915 00675', href: 'tel:+918591500675' },
   },
 }
 
@@ -1544,7 +1542,7 @@ export const contactPage = {
         icon: 'Mail',
         title: 'Email Us',
         lines: ['General Inquiries: info@comfylady.com', 'B2B & Export Sales: sales@comfylady.com'],
-        note: 'Written enquiries answered within 24 to 48 business hours.',
+        note: 'Written enquiries answered within 12 to 24 business hours.',
         actionLabel: 'Send an email',
         actionHref: 'mailto:info@comfylady.com',
       },
@@ -1554,14 +1552,14 @@ export const contactPage = {
     eyebrow: 'Drop Us a Message',
     title: 'Tell us what you need',
     subtitle:
-      'Have a specific requirement? Fill out the form below and our dedicated client relationship team will get back to you within 24 to 48 business hours.',
+      'Have a specific requirement? Fill out the form below and our dedicated client relationship team will get back to you within 12 to 24 business hours.',
     fields: {
       name: { label: 'Full Name', placeholder: 'Your full name', required: true },
       company: { label: 'Company / Organisation Name', placeholder: 'Optional for retail buyers', required: false },
       email: { label: 'Email Address', placeholder: 'you@company.com', required: true },
-      phone: { label: 'Phone Number', placeholder: '+91 00000 00000', required: true },
-      purpose: { label: 'Purpose of Inquiry', placeholder: 'Select an option', required: true },
-      message: { label: 'Your Message', placeholder: 'Share your requirement, target market and quantities…', required: true },
+      phone: { label: 'Phone Number', required: true },
+      purpose: { label: 'Purpose of Inquiry', placeholder: 'Select an option', required: false },
+      message: { label: 'Your Message', placeholder: 'Share your requirement, target market and quantities…', required: false },
     },
     purposeOptions: [
       'OEM / Private Label Manufacturing',
@@ -1575,13 +1573,13 @@ export const contactPage = {
     consent: 'By ticking this box you agree to our Privacy Policy and let our team receive the details above. We never share your details.',
     success: {
       title: 'Thank you — your enquiry is with us',
-      text: 'Our client relationship team will respond within 24 to 48 business hours. For urgent matters, call +91 85915 00675.',
+      text: 'Our client relationship team will respond within 12 to 24 business hours. For urgent matters, call +91 85915 00675.',
       reset: 'Send another message',
     },
     errors: {
       name: 'Please enter your full name.',
       email: 'Please enter a valid email address.',
-      phone: 'Please enter a valid phone number.',
+      phone: 'Please enter a valid phone number for {country}.',
       purpose: 'Please select the purpose of your inquiry.',
       message: 'Please tell us a little about your requirement (at least 10 characters).',
       consent: 'Please tick the box to agree to our Privacy Policy.',

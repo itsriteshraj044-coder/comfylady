@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { NavLink, useLocation } from 'react-router-dom'
+import { Link, NavLink, useLocation } from 'react-router-dom'
 import { AnimatePresence, motion, useScroll } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
 import Logo from '../components/Logo'
@@ -9,7 +9,6 @@ import { brand, contactDetails, navigation, socialLinks } from '../content/conte
 import { getLenis } from '../hooks/useSmoothScroll'
 import { cx } from '../utils/motion'
 import SocialIcon from '../components/SocialIcon'
-import EnquireModal from '../components/EnquireModal'
 
 /**
  * Sticky header that condenses on scroll, plus a full-screen editorial menu on
@@ -19,7 +18,6 @@ import EnquireModal from '../components/EnquireModal'
 export default function Header() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
-  const [enquireOpen, setEnquireOpen] = useState(false)
   const { scrollY } = useScroll()
   const { pathname } = useLocation()
   const closeButtonRef = useRef<HTMLButtonElement | null>(null)
@@ -119,13 +117,12 @@ export default function Header() {
 
           <div className="flex items-center gap-3">
             <Magnetic className="hidden xl:block">
-              <button
-                type="button"
-                onClick={() => setEnquireOpen(true)}
+              <Link
+                to="/contact"
                 className={cx('btn btn-sm group font-nav', overDark ? 'btn-light' : 'btn-primary')}
               >
                 <span className="relative z-10 font-bold">Enquire</span>
-              </button>
+              </Link>
             </Magnetic>
 
             <button
@@ -248,8 +245,6 @@ export default function Header() {
           </motion.div>
         )}
       </AnimatePresence>
-
-      <EnquireModal open={enquireOpen} onClose={() => setEnquireOpen(false)} />
     </>
   )
 }

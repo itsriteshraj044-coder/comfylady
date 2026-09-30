@@ -6,7 +6,8 @@ import WhyChooseSection from '../sections/home/WhyChooseSection'
 import JourneySection from '../sections/home/JourneySection'
 import QualityStandardsSection from '../sections/home/QualityStandardsSection'
 import TestimonialsSection from '../sections/home/TestimonialsSection'
-import FaqSection from '../sections/home/FaqSection'
+// Hidden for now — restore with the section below
+// import FaqSection from '../sections/home/FaqSection'
 import CtaSection from '../sections/shared/CtaSection'
 import { home, seo } from '../content/content'
 import { faqSchema, organisationSchema, productListSchema, websiteSchema } from '../utils/schema'
@@ -26,13 +27,12 @@ export default function HomePage() {
       <JourneySection />
       <QualityStandardsSection />
       <TestimonialsSection />
-      <FaqSection />
+      {/* <FaqSection /> */}
       <CtaSection
         eyebrow={home.cta.eyebrow}
         title={home.cta.title}
         subtitle={home.cta.subtitle}
         primaryCta={home.cta.primaryCta}
-        secondaryCta={home.cta.secondaryCta}
       />
     </>
   )

@@ -33,6 +33,48 @@ export default function ContactPage() {
         ]}
       />
 
+      {/* Form */}
+      <section className="section field-shell" aria-label="Send us a message">
+        <div className="shell">
+          <div className="grid gap-14 lg:grid-cols-12 lg:gap-16">
+            <div className="lg:col-span-4">
+              <SectionHeading
+                eyebrow={contactPage.form.eyebrow}
+                title={contactPage.form.title}
+                subtitle={contactPage.form.subtitle}
+                titleClassName="display-md"
+              />
+
+              <motion.aside
+                variants={fadeUp}
+                initial="hidden"
+                whileInView="show"
+                viewport={viewportSoft}
+                className="mt-12 rounded-sm border border-ink-line bg-cream p-8"
+              >
+                <p className="eyebrow">{contactPage.customNote.eyebrow}</p>
+                <h3 className="mt-4 font-display text-xl font-light leading-snug text-ink">
+                  {contactPage.customNote.title}
+                </h3>
+                <p className="mt-4 text-sm leading-relaxed text-ink-soft">
+                  {contactPage.customNote.text}
+                </p>
+              </motion.aside>
+            </div>
+
+            <motion.div
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="show"
+              viewport={viewportSoft}
+              className="rounded-sm border border-ink-line bg-cream p-8 lg:col-span-8 lg:p-14"
+            >
+              <ContactForm />
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
       {/* Ways to reach us */}
       <section className="section field-cream" aria-label="Get in touch">
         <div className="shell">
@@ -92,50 +134,8 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* Form */}
-      <section className="section field-shell" aria-label="Send us a message">
-        <div className="shell">
-          <div className="grid gap-14 lg:grid-cols-12 lg:gap-16">
-            <div className="lg:col-span-4">
-              <SectionHeading
-                eyebrow={contactPage.form.eyebrow}
-                title={contactPage.form.title}
-                subtitle={contactPage.form.subtitle}
-                titleClassName="display-md"
-              />
-
-              <motion.aside
-                variants={fadeUp}
-                initial="hidden"
-                whileInView="show"
-                viewport={viewportSoft}
-                className="mt-12 rounded-sm border border-ink-line bg-cream p-8"
-              >
-                <p className="eyebrow">{contactPage.customNote.eyebrow}</p>
-                <h3 className="mt-4 font-display text-xl font-light leading-snug text-ink">
-                  {contactPage.customNote.title}
-                </h3>
-                <p className="mt-4 text-sm leading-relaxed text-ink-soft">
-                  {contactPage.customNote.text}
-                </p>
-              </motion.aside>
-            </div>
-
-            <motion.div
-              variants={fadeUp}
-              initial="hidden"
-              whileInView="show"
-              viewport={viewportSoft}
-              className="rounded-sm border border-ink-line bg-cream p-8 lg:col-span-8 lg:p-14"
-            >
-              <ContactForm />
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
       {/* Map */}
-      <section className="relative field-cream pb-[clamp(4rem,7vw,8rem)]" aria-label="Find us">
+      <section className="relative field-shell pb-[clamp(4rem,7vw,8rem)]" aria-label="Find us">
         <div className="shell">
           <div className="flex flex-col gap-8 pb-10 pt-[clamp(4rem,7vw,8rem)] lg:flex-row lg:items-end lg:justify-between">
             <SectionHeading

@@ -116,6 +116,7 @@ export default function BrandIntroSection() {
               viewport={viewportSoft}
               className="mt-12 flex flex-wrap items-center justify-between gap-8 border-t border-ink-line pt-8"
             >
+              {/* Founder signature hidden for now
               <div>
                 <p className="font-sans text-2xl font-light italic text-ink">
                   {intro.signature}
@@ -124,6 +125,7 @@ export default function BrandIntroSection() {
                   {intro.signatureRole}
                 </p>
               </div>
+              */}
               <ButtonLink to={intro.cta.href} variant="outline" size="sm">
                 {intro.cta.label}
               </ButtonLink>

@@ -58,7 +58,6 @@ export default function ProductsPage() {
         title={home.cta.title}
         subtitle={home.cta.subtitle}
         primaryCta={home.cta.primaryCta}
-        secondaryCta={home.cta.secondaryCta}
       />
     </>
   )

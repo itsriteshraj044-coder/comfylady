@@ -22,7 +22,9 @@ export async function sendEnquiry(enquiry: Enquiry): Promise<void> {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
     body: JSON.stringify({
-      _subject: `New enquiry: ${enquiry.purpose} — ${enquiry.name}`,
+      _subject: enquiry.purpose
+        ? `New enquiry: ${enquiry.purpose} — ${enquiry.name}`
+        : `New enquiry — ${enquiry.name}`,
       _template: 'table',
       _captcha: 'false',
       _replyto: enquiry.email,
@@ -30,8 +32,8 @@ export async function sendEnquiry(enquiry: Enquiry): Promise<void> {
       Company: enquiry.company || '—',
       Email: enquiry.email,
       Phone: enquiry.phone,
-      Purpose: enquiry.purpose,
-      Message: enquiry.message,
+      Purpose: enquiry.purpose || '—',
+      Message: enquiry.message.trim() || '—',
     }),
   })
   if (!response.ok) throw new Error(`Enquiry failed: ${response.status}`)

@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import { Quote } from 'lucide-react'
-import ParallaxImage from '../../components/ParallaxImage'
+import SmartImage from '../../components/SmartImage'
 import TextReveal from '../../components/TextReveal'
 import { fadeUp, lineGrow, viewportSoft } from '../../animations/variants'
 import { about } from '../../content/content'
@@ -20,13 +20,14 @@ export default function FounderSection() {
       <div className="shell relative">
         <div className="grid items-center gap-14 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-5">
-            <ParallaxImage
-              src={founder.image}
-              alt={founder.imageAlt}
-              label="Founder portrait"
-              ratio="aspect-[4/5]"
-              strength={9}
-            />
+            <div className="img-frame aspect-[1376/768] rounded-sm">
+              <SmartImage
+                src={founder.image}
+                alt={founder.imageAlt}
+                label="Founder portrait"
+                className="h-full w-full"
+              />
+            </div>
           </div>
 
           <div className="lg:col-span-7 lg:pl-6">
@@ -55,7 +56,7 @@ export default function FounderSection() {
               initial="hidden"
               whileInView="show"
               viewport={viewportSoft}
-              className="mt-6 max-w-3xl text-pretty font-sans text-[clamp(1.25rem,2.1vw,1.9rem)] font-light italic leading-snug text-white/90"
+              className="mt-6 max-w-3xl text-pretty font-sans text-[clamp(1.05rem,1.6vw,1.45rem)] font-light italic leading-snug text-white/90"
             >
               {founder.quote}
             </motion.blockquote>

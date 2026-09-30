@@ -5,6 +5,9 @@ import { LUXE_EASE } from '../animations/variants'
 import { contactPage } from '../content/content'
 import { cx } from '../utils/motion'
 import { sendEnquiry } from '../utils/enquiry'
+import CountryCodeSelect from './CountryCodeSelect'
+import type { CountryCode } from 'libphonenumber-js/max'
+import { countryName, formatPhone, internationalPhone, isValidPhone, phonePlaceholder } from '../utils/phone'
 
 const { form } = contactPage
 
@@ -12,6 +15,7 @@ interface FormState {
   name: string
   company: string
   email: string
+  country: CountryCode
   phone: string
   purpose: string
   message: string
@@ -19,15 +23,15 @@ interface FormState {
 
 type FormErrors = Partial<Record<keyof FormState, string>>
 
-const EMPTY: FormState = { name: '', company: '', email: '', phone: '', purpose: '', message: '' }
+const EMPTY: FormState = { name: '', company: '', email: '', country: 'IN', phone: '', purpose: '', message: '' }
 
 function validate(values: FormState): FormErrors {
   const errors: FormErrors = {}
   if (values.name.trim().length < 2) errors.name = form.errors.name
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(values.email.trim())) errors.email = form.errors.email
-  if (values.phone.replace(/[^\d]/g, '').length < 7) errors.phone = form.errors.phone
-  if (!values.purpose) errors.purpose = form.errors.purpose
-  if (values.message.trim().length < 10) errors.message = form.errors.message
+  if (!isValidPhone(values.phone, values.country)) {
+    errors.phone = form.errors.phone.replace('{country}', countryName(values.country))
+  }
   return errors
 }
 
@@ -55,6 +59,22 @@ export default function ContactForm() {
       if (touched[field]) setErrors(validate(next))
     }
 
+  /* Typing reformats the digits in the selected country's style. Deleting is
+     left alone, so backspace over a space or bracket does not fight you. */
+  const updatePhone = (event: ChangeEvent<HTMLInputElement>) => {
+    const raw = event.target.value
+    const phone = raw.length < values.phone.length ? raw : formatPhone(raw, values.country)
+    const next = { ...values, phone }
+    setValues(next)
+    if (touched.phone) setErrors(validate(next))
+  }
+
+  const changeCountry = (country: CountryCode) => {
+    const next = { ...values, country, phone: formatPhone(values.phone, country) }
+    setValues(next)
+    if (touched.phone) setErrors(validate(next))
+  }
+
   const blur = (field: keyof FormState) => () => {
     setTouched((previous) => ({ ...previous, [field]: true }))
     setErrors(validate(values))
@@ -71,7 +91,8 @@ export default function ContactForm() {
   const deliver = (enquiry: FormState) => {
     const key = JSON.stringify(enquiry)
     if (lastSend.current?.key === key) return lastSend.current.request
-    const request = sendEnquiry(enquiry).catch((error: unknown) => {
+    const { country, ...rest } = enquiry
+    const request = sendEnquiry({ ...rest, phone: internationalPhone(rest.phone, country) }).catch((error: unknown) => {
       if (lastSend.current?.request === request) lastSend.current = null
       throw error
     })
@@ -269,20 +290,34 @@ export default function ContactForm() {
               <label htmlFor="contact-phone" className={labelClass}>
                 {form.fields.phone.label} <span aria-hidden="true" className="text-rose-500">*</span>
               </label>
-              <input
-                id="contact-phone"
-                name="phone"
-                type="tel"
-                autoComplete="tel"
-                required
-                value={values.phone}
-                onChange={update('phone')}
-                onBlur={blur('phone')}
-                placeholder={form.fields.phone.placeholder}
-                aria-invalid={Boolean(errors.phone && touched.phone)}
-                aria-describedby={errors.phone && touched.phone ? 'error-phone' : undefined}
-                className={fieldClass('phone')}
-              />
+              <div
+                className={cx(
+                  'flex items-stretch border-b transition-colors duration-500',
+                  errors.phone && touched.phone
+                    ? 'border-rose-600'
+                    : 'border-ink-line focus-within:border-rose-400',
+                )}
+              >
+                <CountryCodeSelect
+                  value={values.country}
+                  onChange={changeCountry}
+                />
+                <input
+                  id="contact-phone"
+                  name="phone"
+                  type="tel"
+                  autoComplete="tel-national"
+                  required
+                  inputMode="tel"
+                  value={values.phone}
+                  onChange={updatePhone}
+                  onBlur={blur('phone')}
+                  placeholder={phonePlaceholder(values.country)}
+                  aria-invalid={Boolean(errors.phone && touched.phone)}
+                  aria-describedby={errors.phone && touched.phone ? 'error-phone' : undefined}
+                  className="w-full min-w-0 bg-transparent py-3 text-ink placeholder:text-ink-muted/60 focus:outline-none"
+                />
+              </div>
               {errors.phone && touched.phone && (
                 <p id="error-phone" className="mt-2 text-xs text-rose-600">
                   {errors.phone}
@@ -293,13 +328,11 @@ export default function ContactForm() {
             {/* Purpose */}
             <div className="sm:col-span-2">
               <label htmlFor="contact-purpose" className={labelClass}>
-                {form.fields.purpose.label}{' '}
-                <span aria-hidden="true" className="text-rose-500">*</span>
+                {form.fields.purpose.label}
               </label>
               <select
                 id="contact-purpose"
                 name="purpose"
-                required
                 value={values.purpose}
                 onChange={update('purpose')}
                 onBlur={blur('purpose')}
@@ -326,14 +359,12 @@ export default function ContactForm() {
             {/* Message */}
             <div className="sm:col-span-2">
               <label htmlFor="contact-message" className={labelClass}>
-                {form.fields.message.label}{' '}
-                <span aria-hidden="true" className="text-rose-500">*</span>
+                {form.fields.message.label}
               </label>
               <textarea
                 id="contact-message"
                 name="message"
                 rows={5}
-                required
                 value={values.message}
                 onChange={update('message')}
                 onBlur={blur('message')}

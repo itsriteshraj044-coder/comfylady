@@ -166,7 +166,6 @@ export default function FaqPage() {
         title={faqPage.cta.title}
         subtitle={faqPage.cta.subtitle}
         primaryCta={faqPage.cta.primaryCta}
-        secondaryCta={faqPage.cta.secondaryCta}
       />
     </>
   )
