@@ -1,0 +1,121 @@
+# =============================================================================
+# Comfylady — Apache configuration
+# -----------------------------------------------------------------------------
+# This site is a single-page app. React Router resolves routes on the client,
+# so the server must hand every unknown path to index.html. Without the rewrite
+# below, loading or refreshing a deep link such as /products, /about or
+# /privacy-policy returns a 404 from Apache, because no such file exists on disk.
+#
+# Upload this file to the same folder as index.html (usually public_html/).
+# It ships automatically inside dist/ when you run `npm run build`.
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# 1. SPA routing — the important part
+# -----------------------------------------------------------------------------
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # If the site lives in a subfolder, change this to /subfolder/
+  RewriteBase /
+
+  # Requests for files that actually exist (JS, CSS, images, sitemap.xml,
+  # robots.txt, favicon) are served directly and must never be rewritten.
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # Everything else is a client-side route: serve index.html with a 200 and let
+  # React Router decide what to render (including its own 404 page).
+  RewriteRule ^ index.html [L]
+</IfModule>
+
+# NOTE ON REDIRECTS
+# There is deliberately no HTTPS or www redirect here. Most hosts terminate TLS
+# at a proxy and already handle canonicalisation; adding another redirect on top
+# is the usual cause of redirect loops ("too many redirects"). If your host does
+# NOT redirect to HTTPS for you, uncomment the three lines below — and only
+# those. Test a deep link such as /products immediately afterwards.
+#
+# <IfModule mod_rewrite.c>
+#   RewriteCond %{HTTPS} !=on
+#   RewriteCond %{HTTP:X-Forwarded-Proto} !https
+#   RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+# </IfModule>
+#
+# There is also no `ErrorDocument 404 /index.html`. It looks like a helpful
+# fallback, but it makes a genuinely missing asset return the HTML page instead
+# of a 404 — which surfaces as "Unexpected token '<'" script errors that are
+# painful to diagnose. The rewrite above already covers every real route.
+
+# -----------------------------------------------------------------------------
+# 2. MIME types — some shared hosts still get these wrong
+# -----------------------------------------------------------------------------
+<IfModule mod_mime.c>
+  AddType text/javascript                 js mjs
+  AddType text/css                        css
+  AddType image/svg+xml                   svg svgz
+  AddType image/webp                      webp
+  AddType image/avif                      avif
+  AddType application/json                json
+  AddType application/manifest+json       webmanifest
+  AddType font/woff2                      woff2
+  AddType application/xml                 xml
+</IfModule>
+
+# -----------------------------------------------------------------------------
+# 3. Compression
+# -----------------------------------------------------------------------------
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/css text/xml
+  AddOutputFilterByType DEFLATE text/javascript application/javascript
+  AddOutputFilterByType DEFLATE application/json application/xml
+  AddOutputFilterByType DEFLATE image/svg+xml application/manifest+json
+</IfModule>
+
+# -----------------------------------------------------------------------------
+# 4. Caching
+# Vite fingerprints asset filenames, so they can be cached hard and forever.
+# index.html must never be cached, or visitors keep loading an old build that
+# points at assets which no longer exist.
+# -----------------------------------------------------------------------------
+<IfModule mod_headers.c>
+  <FilesMatch "\.(js|mjs|css|woff2|jpg|jpeg|png|gif|webp|avif|svg)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+
+  <FilesMatch "\.(html|xml|txt|json)$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+
+  # Basic hardening
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+</IfModule>
+
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault                          "access plus 1 month"
+  ExpiresByType text/html                 "access plus 0 seconds"
+  ExpiresByType application/xml           "access plus 0 seconds"
+  ExpiresByType text/plain                "access plus 0 seconds"
+  ExpiresByType text/css                  "access plus 1 year"
+  ExpiresByType text/javascript           "access plus 1 year"
+  ExpiresByType application/javascript    "access plus 1 year"
+  ExpiresByType image/jpeg                "access plus 1 year"
+  ExpiresByType image/png                 "access plus 1 year"
+  ExpiresByType image/svg+xml             "access plus 1 year"
+  ExpiresByType image/webp                "access plus 1 year"
+  ExpiresByType font/woff2                "access plus 1 year"
+</IfModule>
+
+# -----------------------------------------------------------------------------
+# 5. Misc
+# -----------------------------------------------------------------------------
+# Don't expose directory listings.
+Options -Indexes
+
+# UTF-8 everywhere.
+AddDefaultCharset UTF-8
