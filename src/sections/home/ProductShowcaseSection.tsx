@@ -10,7 +10,7 @@ const { products: copy } = home
 
 /**
  * SECTION 3 — Product showcase.
- * Three signature variants presented as tilting, depth-aware cards over a
+ * Six signature variants (the new ultra thin range first) presented as tilting, depth-aware cards over a
  * slow-drifting oversized word.
  */
 export default function ProductShowcaseSection() {
@@ -23,7 +23,14 @@ export default function ProductShowcaseSection() {
      where the cards are opaque and hide it completely. */
   const wordY = useTransform(scrollYProgress, [0, 1], ['-6vh', '46vh'])
 
-  const featured = ['straight-cotton-xl', 'ultra-thin-drynet-xl', 'charcoal-graphene-chip']
+  const featured = [
+    'ultra-thin-anion-330',
+    'ultra-thin-330',
+    'ultra-thin-anion-350',
+    'straight-cotton-xl',
+    'ultra-thin-drynet-xl',
+    'charcoal-graphene-chip',
+  ]
     .map((id) => products.find((product) => product.id === id))
     .filter((product): product is (typeof products)[number] => Boolean(product))
 
